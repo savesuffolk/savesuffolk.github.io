@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#2f7d5a">
+<title>The Issues — Stop Project Sunrise</title>
+<meta name="description" content="Traffic, water, forest, noise, air, zoning, tax breaks and process: what the Project Sunrise filing actually says, why it matters, and the question to ask at the hearing.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231f7a3d'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-nav"></div>
+
+<section class="block" style="border-top:0">
+  <div class="wrap">
+    <h2><i data-icon="alert"></i> The issues</h2>
+    <p class="lede">Not anti‑Amazon. Pro‑community. Eight issues, one at a time: the fact from the filing, why it matters, and the question to ask at a hearing. Specific questions tied to impacts are stronger than general opposition — and they build the record for a legal challenge if the Town approves anyway. Deep dives: <a href="noise.html">noise</a> · <a href="values.html">home values</a> · <a href="water.html">water</a> · <a href="voices.html">voices from other towns</a>.</p>
+    <div id="issue-slides" data-subnav="1" aria-roledescription="carousel" aria-label="The issues"></div>
+  </div>
+</section>
+
+<section class="block" id="traffic">
+  <div class="wrap">
+    <h2><i data-icon="truck"></i> Traffic, in the applicant's own study</h2>
+    <p class="lede">555 truck trips on an average weekday, 809 in peak season, on two roads that already fail at rush hour. The schedules below are the operator's own numbers; nobody outside the company can check them.</p>
+    <div id="roads-app"><p class="muted">Loading…</p></div>
+    <details class="how" style="margin-top:22px"><summary>The study's crash and traffic charts, and the corridor for your town</summary>
+      <div class="photo-strip" style="margin-top:12px">
+        <div class="photo" data-photo="earth-interchange" data-caption="Sunrise Hwy / Veterans Memorial Hwy at the site — where 555–809 daily truck trips would turn in"></div>
+        <div class="photo" data-photo="nicolls-rd" data-caption="Nicolls Road (CR 97): the study's designated truck route and 29% of all trips"></div>
+      </div>
+      <div class="grid cols-2" style="margin-top:18px">
+        <div class="chart-box"><h4>Crash rate vs. NYSDOT average (crashes per million entering vehicles)</h4><canvas id="chart-crash" height="260"></canvas><div class="note">544 collisions at the studied intersections, Jan 1 2023 – Jan 1 2026. Every intersection in the study's own table already exceeds the NYSDOT comparison rate.</div></div>
+        <div class="chart-box"><h4>Daily trips the facility generates</h4><canvas id="chart-trips" height="260"></canvas><div class="note">"Flex" = Amazon Flex delivery drivers' personal cars. Truck figures are one-way trips. Source: TIS Tables A5/A6.</div></div>
+      </div>
+      <p style="margin-top:18px"><a class="btn secondary" href="house.html">Which road do these trips use to reach <em>your</em> town?</a></p>
+    </details>
+  </div>
+</section>
+
+<section class="block" id="land">
+  <div class="wrap">
+    <h2><i data-icon="tree"></i> Forest and land</h2>
+    <div class="grid cols-2">
+      <div class="chart-box">
+        <h4>Land cover before and after (acres)</h4>
+        <canvas id="chart-land" height="260"></canvas>
+        <div class="note">Source: Full EAF land‑cover table. 99.87 acres of forest removed; impervious surface rises from half an acre to 83.8 acres — 61% of the site.</div>
+      </div>
+      <div class="card">
+        <div class="photo wide" data-photo="earth-forest-edge"></div>
+        <h3><i data-icon="bird"></i> What the EAF says lives there</h3>
+        <p>"Black‑capped Chickadee, White‑Breasted Nuthatch, Pine Warbler, Eastern Wood Peewee, Blue Jay, Downy Woodpecker, Whitetail Deer, Eastern Chipmunk, and Eastern Gray Squirrel." The EAF answers "No" to every wetland question, while the site plan's own General Note 3 says wetland and natural‑resource areas "are still being researched." The Town's application form has "Yes" checked for within 500 feet of a stream, drainage channel or wetland.</p>
+        <p>This is the largest block of vacant land in the entire Sunrise Highway corridor study area (Suffolk County Planning, 2009). Once cleared, it does not come back.</p>
+        <p><a href="water.html">What clearing it means for the aquifer →</a></p>
+      </div>
+    </div>
+    <div class="photo-strip">
+      <div class="photo wide" data-photo="earth-homes-woods"></div>
+      <div class="photo wide" data-photo="earth-homes-north"></div>
+      <div class="photo wide" data-photo="pine-barrens" data-caption="Long Island pitch pine–oak woodland: the same forest type on the site"></div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="data/facts.js"></script>
+<script src="data/photos-local.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/issues.js"></script>
+<script src="data/noise-params.js"></script>
+<script src="data/impacts.js"></script>
+<script src="data/roads.js"></script>
+<script src="data/corridors.js"></script>
+<script src="data/events.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+<script src="js/roads.js"></script>
+</body>
+</html>

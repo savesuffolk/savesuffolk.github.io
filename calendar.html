@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#2f7d5a">
+<title>Meetings — Stop Project Sunrise</title>
+<meta name="description" content="Every Town of Islip and Suffolk County meeting where Project Sunrise can be decided or challenged, with what to say and calendar links.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231f7a3d'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-nav"></div>
+
+<section class="block" style="border-top:0">
+  <div class="wrap">
+    <h2><i data-icon="calendar"></i> Meetings &amp; hearings</h2>
+    <p class="lede">The zone change is decided at the Islip Town Board's <strong>Change of Zone hearings</strong>. Planning Board meetings shape the environmental review. County committees control sewer capacity, county roads and any county resolution. Show up. Speak for three minutes. Bring two neighbors.</p>
+    <div class="next-up" style="background:var(--green-light);border-left:4px solid var(--green);padding:12px 16px;border-radius:6px;margin-bottom:18px"></div>
+    <div class="photo-strip">
+      <div class="photo wide" data-photo="islip-town-hall" data-caption="Islip Town Hall, 655 Main Street, Islip — Town Board and Change of Zone hearings"></div>
+      <div class="photo wide" data-photo="rogers-bldg" data-caption="William H. Rogers Building, 725 Veterans Memorial Hwy, Smithtown — Suffolk County Legislature and committees"></div>
+      <div class="photo wide" data-photo="dennison-bldg" data-caption="H. Lee Dennison Building, 100 Veterans Memorial Hwy, Hauppauge — Suffolk County Planning Commission (location varies)"></div>
+    </div>
+    <div class="cal-controls">
+      <button class="btn sm secondary" id="cal-prev">‹</button>
+      <strong id="cal-month" style="min-width:150px;text-align:center"></strong>
+      <button class="btn sm secondary" id="cal-next">›</button>
+      <select id="cal-filter">
+        <option value="">All meetings</option>
+        <option value="town">Town of Islip</option>
+        <option value="county">Suffolk County</option>
+        <option value="campaign">Campaign events</option>
+        <option value="speak">Where you can speak</option>
+      </select>
+      <button class="btn sm secondary" id="cal-view-toggle">List view</button>
+      <button class="btn sm" id="cal-ics-all"><i data-icon="download"></i> Download all (.ics)</button>
+    </div>
+    <div class="legend-icons"><span><i data-icon="gavel"></i> Change of Zone hearing (decisive)</span><span><i data-icon="landmark"></i> Town Board / Planning Board</span><span><i data-icon="users"></i> County Legislature / committee</span><span><i data-icon="megaphone"></i> Campaign event</span><span><i data-icon="mic"></i> Public comment allowed</span></div>
+    <div id="cal-grid" class="cal-grid"></div>
+    <ul id="cal-list" class="ev-list" hidden></ul>
+    <p class="small muted" style="margin-top:12px">Schedules change. Verify before you go: <a href="https://islipny.gov/community-and-services/documents/meeting-documents-agendas-notices-resolutions" target="_blank" rel="noopener">Town of Islip meeting notices</a> · <a href="https://www.scnylegislature.us/" target="_blank" rel="noopener">Suffolk County Legislature</a>. Public comment at Town Board meetings is usually limited to 3 minutes per speaker; sign in when you arrive.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>Before you go</h2>
+    <div class="grid cols-3">
+      <div class="card"><h3><i data-icon="list"></i> Pick a topic</h3><p class="small">Speakers who repeat each other get tuned out. Use the <a href="act.html#testimony">3‑minute statement builder</a> to claim a topic — traffic, water, tax breaks, noise, zoning — and coordinate in the Facebook group.</p></div>
+      <div class="card"><h3><i data-icon="script"></i> Ask a question, not just an objection</h3><p class="small">"How will the Town verify Amazon's operator‑supplied truck schedules?" goes on the record and has to be answered. "I'm against it" does not. Every <a href="issues.html">issue card</a> ends with a question.</p></div>
+      <div class="card"><h3><i data-icon="pin"></i> Say where you live</h3><p class="small">Name your hamlet and street. Officials count constituents. Residents of Sayville, Bohemia, Bayport, Ronkonkoma and Patchogue share the roads, the sewer district and the aquifer — this is a county issue, not a Holbrook issue.</p></div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data/facts.js"></script>
+<script src="data/photos-local.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/events.js"></script>
+<script src="data/templates.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

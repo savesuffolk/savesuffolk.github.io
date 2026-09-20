@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#2f7d5a">
+<title>The Project — Stop Project Sunrise</title>
+<meta name="description" content="Amazon's proposed Project Sunrise warehouse in Holbrook, by the applicant's own filed numbers: size, site, who is behind it, what approvals it needs, and the timeline.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231f7a3d'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-nav"></div>
+
+<section class="block" style="border-top:0">
+  <div class="wrap">
+    <h2><i data-icon="warehouse"></i> The project, by the applicant's own numbers</h2>
+    <p class="lede">Every figure on this page comes from documents the developer filed with the Town of Islip and that residents obtained under the Freedom of Information Law: the Change of Zone application, the Full Environmental Assessment Form (EAF), the Stonefield Traffic Impact Study, and the VHB site plan. Not from flyers, not from Amazon's press release. <a href="docs.html">Read the documents yourself.</a></p>
+    <div class="facts" id="fact-tiles"></div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="grid cols-2">
+      <div class="chart-box">
+        <h4>How big is 4.26 million square feet?</h4>
+        <canvas id="chart-scale" height="220"></canvas>
+        <div class="note">Comparison buildings are approximate published figures. Project Sunrise floor area from the Change of Zone application form (4,264,725 sq ft; 4,430,709 with the parking garage). Roughly 73 football fields of floor, stacked three stories high, on a site 2,400 feet wide.</div>
+      </div>
+      <div class="card">
+        <div class="photo wide" data-photo="site-annotated"></div>
+        <h3><i data-icon="pin"></i> Where</h3>
+        <p>Northeast corner of Sunrise Highway (NY‑27) and Veterans Memorial Highway (NY‑454), Holbrook. Bounded by Beacon Drive to the east, homes to the north, Sans Souci County Park across Sunrise Highway to the south, and the existing Amazon DYR7 / FedEx sites to the west. Next to Costco and the Shops at SunVet. The former "Islip Pines" site.</p>
+        <p><a href="https://www.google.com/maps/search/?api=1&query=40.7735,-73.0625" target="_blank" rel="noopener">Open in Google Maps</a> · Suffolk tax map District 500, Sections 217 / 218 / 239 (21 lots).</p>
+        <h3><i data-icon="users"></i> Who</h3>
+        <p><strong>Applicant/owner:</strong> Islip NY Hold Co, LLC, 8801 River Crossing Blvd, Indianapolis (the address of <strong>Scannell Properties</strong>). <strong>End user:</strong> Amazon. The applicant's traffic study describes an "Amazon logistics facility" with Amazon Robotics Sortable and Sub‑Same‑Day fulfillment; Amazon's Danielle Aristy attended the Aug 4, 2026 meeting at Town Hall. Amazon's name appears nowhere on the zoning forms themselves. <strong>Attorney:</strong> Brian W. Kennedy, Forchelli Deegan Terrana LLP. <strong>Engineers:</strong> VHB (site plan, EAF), Stonefield (traffic).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2><i data-icon="ruler"></i>Scale, in three dimensions</h2>
+    <p class="lede">The bar chart says 4.26 million square feet. This shows it: start at a Holbrook house, pull back past Costco, JFK8 and Roosevelt Field, then turn to the wooded site and watch it clear and the buildings rise to their filed heights.</p>
+    <div id="site3d"></div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2><i data-icon="video"></i> See the site</h2>
+    <p class="lede">The campaign's Google Earth fly‑over: from the Sunrise/Vets interchange, across the woods, to the backyards on the north side and Sans Souci Lakes to the south.</p>
+    <div class="grid cols-2">
+      <div class="video-box"><video controls muted playsinline preload="metadata" poster="assets/flyby-poster.jpg" src="assets/flyby.mp4"></video><p class="small muted" style="margin-top:6px">Google Earth fly‑by prepared by the campaign's social media committee. Imagery ©2026 Google.</p></div>
+      <div class="grid" style="gap:14px">
+        <div class="photo wide" data-photo="site-overlay"></div>
+        <div class="photo wide" data-photo="earth-forest-edge"></div>
+      </div>
+    </div>
+    <div class="photo-strip">
+      <div class="photo" data-photo="sunvet" data-caption="Next door: the Shops at SunVet (the old Sun Vet Mall entrance, 2023), Sunrise Hwy at Vets Hwy"></div>
+      <div class="photo" data-photo="sans-souci" data-caption="Across Sunrise Highway: Sans Souci County Park, Sayville — groundwater-fed lakes downgradient of the site"></div>
+      <div class="photo" data-photo="amazon-fc" data-caption="For scale: a typical Amazon fulfillment center (Ocala, FL, ~850,000 sq ft). Project Sunrise is five of these, stacked three high"></div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2><i data-icon="gavel"></i> What it needs from government</h2>
+    <p class="lede">Nothing is approved. Each item below is a public decision with a public hearing. That is the leverage.</p>
+    <div class="grid cols-3">
+      <div class="card flag"><h3><i data-icon="landmark"></i> Islip Town Board</h3><ul class="small"><li>Change of zone (IMUPDD / ICD / Residence AA → Industrial 1), <em>or</em> a brand‑new Planned Development District. Town Planning wrote on July 24, 2026 that the height and floor‑area variances would be of "significant magnitude."</li><li>Rescission of the recorded Islip Pines covenants and restrictions.</li><li>Sale of a Town‑owned 0.82‑acre "triangle" parcel.</li><li>Abandonment of three paper streets (Barkley Drive, Kings Road, Church Court).</li><li>Acceptance of a roadway dedication.</li></ul></div>
+      <div class="card flag"><h3><i data-icon="dollar"></i> Islip IDA</h3><ul class="small"><li>"Potential financial assistance" — a PILOT property‑tax abatement and sales‑tax exemption. Amazon has said publicly the project needs a tax break to proceed.</li><li>The filing contains no jobs figure, no payroll figure and no fiscal impact analysis.</li></ul></div>
+      <div class="card"><h3><i data-icon="file"></i> Planning Board &amp; SEQRA</h3><ul class="small"><li>Site plan approval.</li><li>SEQRA determination. The EAF submitted says no code amendment is needed and omits the Zoning Board of Appeals — the Town told the applicant to fix it.</li><li>Noise, air‑quality, greenhouse‑gas and lighting studies were all "being prepared" at filing.</li></ul></div>
+      <div class="card"><h3><i data-icon="users"></i> Suffolk County</h3><ul class="small"><li>Planning Commission §239‑m referral on the zone change.</li><li>Sewer Agency / DPW: capacity in Sewer District No. 14 (Parkland) for 61,200 gal/day — no sewer line reaches the site today.</li><li>Health Services: water supply and sanitary disposal.</li><li>SCWA water connection (the supply well is "not yet identified").</li></ul></div>
+      <div class="card"><h3><i data-icon="flag"></i> New York State</h3><ul class="small"><li>NYSDOT Region 10: highway work permits on NY‑27 and NY‑454.</li><li>NYSDEC: SPDES construction‑stormwater permit.</li></ul></div>
+      <div class="card"><h3><i data-icon="star"></i> Federal / utilities</h3><ul class="small"><li>FAA determination of no hazard to air navigation (MacArthur Airport).</li><li>PSEG Long Island access easement across LIPA rights‑of‑way; 12.1 MW peak demand.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2><i data-icon="clock"></i> Timeline</h2>
+    <ul class="timeline" id="timeline"></ul>
+    <p><a class="btn" href="calendar.html">See the upcoming hearings</a> <a class="btn secondary" href="issues.html">What's wrong with it</a></p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="data/facts.js"></script>
+<script src="data/photos-local.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/events.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/site3d.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

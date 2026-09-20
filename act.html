@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#2f7d5a">
+<title>Take Action — Stop Project Sunrise</title>
+<meta name="description" content="Find your officials, get a filled-in email and phone script, build a 3-minute hearing statement, and log your calls. Town of Islip, Suffolk County, New York State.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231f7a3d'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-nav"></div>
+
+<section class="block" style="border-top:0">
+  <div class="wrap">
+    <h2>Take action</h2>
+    <p class="lede">The Town Board members are elected. The Islip IDA must hold a public hearing before any tax break. County legislators control sewer and county incentives. State legislators can push NYSDOT and NYSDEC. Pick an official; we draft the email or phone script with the filing's numbers. Then make it yours — one sentence about your street beats any form letter.</p>
+
+    <div class="you-box">
+      <div class="form">
+        <label>Your name <input type="text" id="you-name" placeholder="Jane Resident"></label>
+        <label>Your street <input type="text" id="you-street" placeholder="Glensummer Rd"></label>
+        <label>Hamlet <input type="text" id="you-town" placeholder="Holbrook" value="Holbrook"></label>
+        <span class="small muted">Saved only in your browser. Used to fill in templates.</span>
+      </div>
+    </div>
+
+    <div class="grid cols-4">
+      <a class="card ok" href="#where" style="text-decoration:none;color:inherit"><h3><span class="step-num">1</span><i data-icon="search"></i> Where do you live?</h3><p class="small">See your county, Assembly and Senate reps, and how the trucks reach you.</p></a>
+      <a class="card ok" href="#officials" style="text-decoration:none;color:inherit"><h3><span class="step-num">2</span><i data-icon="phone"></i> Call &amp; email</h3><p class="small">Town Board first, then IDA, Planning, County, State.</p></a>
+      <a class="card ok" href="#testimony" style="text-decoration:none;color:inherit"><h3><span class="step-num">3</span><i data-icon="mic"></i> Speak at a hearing</h3><p class="small">Nov 19 &amp; Dec 17, 5 PM, Islip Town Hall. Claim a topic, get a draft.</p></a>
+      <a class="card ok" href="#volunteer" style="text-decoration:none;color:inherit"><h3><span class="step-num">4</span><i data-icon="hand"></i> Sign, share, volunteer</h3><p class="small">Petition, Facebook, six committees.</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="where">
+  <div class="wrap">
+    <h2><i data-icon="search"></i> Where do you live?</h2>
+    <p class="lede">Groundwater, truck routes and county votes do not stop at the Holbrook line. Pick your hamlet to see who represents you on this decision and how the project reaches your street.</p>
+    <div class="cal-controls">
+      <select id="hamlet-select"><option value="">Choose your hamlet…</option></select>
+      <span class="small muted" id="hamlet-note"></span>
+    </div>
+    <div id="hamlet-result"></div>
+    <p class="small muted" id="hamlet-lookups"></p>
+  </div>
+</section>
+
+<section class="block" id="officials-section">
+  <div class="wrap">
+    <h2 id="officials-heading"><i data-icon="megaphone"></i> Everyone with a say, in order of leverage</h2>
+    <div class="legend-icons"><span><i data-icon="landmark"></i> Town of Islip</span><span><i data-icon="users"></i> Suffolk County</span><span><i data-icon="flag"></i> New York State</span><span><i data-icon="star"></i> Federal</span><span><i data-icon="award"></i> Ally</span><span><i data-icon="alert"></i> Verify contact</span></div>
+    <div id="officials"></div>
+  </div>
+</section>
+
+<section class="block" id="testimony">
+  <div class="wrap">
+    <h2><i data-icon="mic"></i> Build your 3‑minute hearing statement</h2>
+    <p>Pick a topic so speakers don't repeat each other. Each draft uses the applicant's own figures, asks a question the Town must answer on the record, and ends with the ask.</p>
+    <div class="cal-controls">
+      <select id="testimony-topic"></select>
+      <button class="btn sm" id="testimony-open"><i data-icon="pen"></i> Draft it</button>
+    </div>
+    <h3 style="margin-top:28px"><i data-icon="pen"></i> Write to Newsday</h3>
+    <p>Letters to the editor land on officials' desks. Keep it under 200 words, sign with your name and hamlet. <button class="btn sm secondary" id="newsday-open">Open letter template</button></p>
+  </div>
+</section>
+
+<section class="block" id="volunteer">
+  <div class="wrap">
+    <h2><i data-icon="hand"></i> Sign and share</h2>
+    <div class="grid cols-3" style="margin-bottom:22px">
+      <a class="card" href="https://www.change.org/p/stop-amazon-from-building-a-mega-warehouse-in-holbrook-ny" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><h3><i data-icon="pen"></i> Sign the petition</h3><p class="small">change.org — "Stop Amazon from building a mega warehouse in Holbrook, NY."</p></a>
+      <a class="card" href="https://www.facebook.com/STOPISLIPOVERBUILDING" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><h3><i data-icon="megaphone"></i> Follow the Facebook page</h3><p class="small">Stop Islip Overbuilding — meeting alerts and updates.</p></a>
+      <a class="card" href="https://www.facebook.com/search/groups/?q=Holbrook%20Residents%20Opposing%20the%20Mega%20Warehouse" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><h3><i data-icon="users"></i> Join the Facebook group</h3><p class="small">Holbrook Residents Opposing the Mega Warehouse — where the organizing happens.</p></a>
+    </div>
+    <h3><i data-icon="users"></i> Six committees</h3>
+    <details class="how" id="volunteer-more"><summary>For volunteers: committees</summary><div class="grid cols-3" id="committees" style="margin-top:12px"></div></details>
+    <p class="small muted">To join a committee, post in the Facebook group or email the campaign (address to be added). We do not publish volunteers' contact information.</p>
+  </div>
+</section>
+
+<section class="block" id="log">
+  <div class="wrap">
+    <details class="how"><summary><i data-icon="clipboard"></i> For volunteers: your call log</summary>
+    <p class="small">Track who you contacted. Stored only in your browser; export to share with the committee.</p>
+    <div class="cal-controls">
+      <select id="log-official"></select>
+      <select id="log-method"><option>Phone</option><option>Email</option><option>In person</option></select>
+      <input type="text" id="log-note" placeholder="Who answered / what they said">
+      <button class="btn sm" id="log-add"><i data-icon="check"></i> Add</button>
+      <button class="btn sm secondary" id="log-export"><i data-icon="download"></i> Export CSV</button>
+    </div>
+    <div class="tbl-wrap"><table class="tbl" id="log-table"></table></div>
+  </details>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data/facts.js"></script>
+<script src="data/photos-local.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/officials.js"></script>
+<script src="data/templates.js"></script>
+<script src="data/events.js"></script>
+<script src="data/corridors.js"></script>
+<script src="data/districts.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/locate.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

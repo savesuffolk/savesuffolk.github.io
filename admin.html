@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data editor — Stop Project Sunrise</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { background: #f4f6f2; }
+  .adm { max-width: 1400px; margin: 0 auto; padding: 20px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; position: sticky; top: 0; background: #f4f6f2; padding: 10px 0; z-index: 5; border-bottom: 1px solid var(--border); }
+  .bar select, .bar input { padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font: inherit; background: #fff; }
+  .rows { display: grid; gap: 10px; }
+  .row { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 12px; position: relative; }
+  .row.wide { grid-template-columns: 1fr; }
+  .row label { display: flex; flex-direction: column; font-size: .72rem; font-weight: 700; color: var(--muted); gap: 3px; min-width: 0; }
+  .row input, .row textarea, .row select { font: inherit; font-size: .88rem; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: #fbfaf6; width: 100%; }
+  .row textarea { min-height: 64px; resize: vertical; font-family: inherit; }
+  .row textarea.json { font-family: var(--mono); font-size: .78rem; min-height: 90px; }
+  .row .id { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: .78rem; color: var(--muted); }
+  .row .del { background: none; border: 0; color: var(--danger); cursor: pointer; font-size: .8rem; }
+  .row.dirty { border-color: var(--accent); box-shadow: 0 0 0 2px #fbf1d3; }
+  .row.bad { border-color: var(--danger); }
+  .hint { font-size: .8rem; color: var(--muted); }
+  .status { font-size: .85rem; margin-left: auto; }
+  .status.ok { color: var(--green-dark); } .status.err { color: var(--danger); }
+  .kv { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .prim { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+</style>
+</head>
+<body>
+<div class="adm">
+  <div class="bar">
+    <strong>Data editor</strong>
+    <select id="file"></select>
+    <select id="key"></select>
+    <input id="filter" type="text" placeholder="filter rows…" style="min-width:200px">
+    <button class="btn sm secondary" id="add">+ Add row</button>
+    <button class="btn sm" id="save">Save to data/…js</button>
+    <a class="btn sm ghost" id="view" href="index.html" target="_blank">View site</a>
+    <span class="status" id="status"></span>
+  </div>
+  <p class="hint">Edits change the files in <code>site/data/</code> directly (a <code>.bak</code> of the previous version is kept next to each). Reload the site to see them. Fields that hold lists or objects show as JSON — keep the brackets balanced. Nothing here is published; commit and push when you're happy.</p>
+  <div id="editor"></div>
+</div>
+<script>
+(async function () {
+  const $ = s => document.querySelector(s);
+  const fileSel = $('#file'), keySel = $('#key'), editor = $('#editor'), status = $('#status');
+  let files = [], data = {}, cur = { file: '', key: '' }, model = null, kind = 'array';
+  const say = (m, cls) => { status.textContent = m; status.className = 'status ' + (cls || ''); };
+
+  files = await (await fetch('/api/files')).json();
+  fileSel.innerHTML = files.map(f => `<option value="${f.name}">${f.name}.js</option>`).join('');
+  fileSel.addEventListener('change', () => loadFile(fileSel.value));
+  keySel.addEventListener('change', () => render(keySel.value));
+  $('#filter').addEventListener('input', applyFilter);
+  $('#add').addEventListener('click', addRow);
+  $('#save').addEventListener('click', save);
+  const pref = new URLSearchParams(location.search).get('file');
+  await loadFile(pref && files.some(f => f.name === pref) ? pref : files[0].name);
+
+  async function loadFile(name) {
+    cur.file = name; fileSel.value = name;
+    data = await (await fetch('/api/data/' + name)).json();
+    keySel.innerHTML = Object.keys(data).map(k => `<option>${k}</option>`).join('');
+    render(Object.keys(data)[0]);
+  }
+
+  // --- rendering: array of objects | object of objects | anything else (raw JSON) ---
+  function render(key) {
+    cur.key = key; keySel.value = key; const v = data[key];
+    editor.innerHTML = '';
+    if (Array.isArray(v) && v.every(x => x && typeof x === 'object' && !Array.isArray(x))) { kind = 'array'; model = v.map(x => JSON.parse(JSON.stringify(x))); renderRows(); }
+    else if (v && typeof v === 'object' && !Array.isArray(v) && Object.values(v).every(x => x && typeof x === 'object' && !Array.isArray(x))) { kind = 'object'; model = Object.entries(v).map(([k, x]) => Object.assign({ __key: k }, JSON.parse(JSON.stringify(x)))); renderRows(); }
+    else { kind = 'raw'; model = v; editor.innerHTML = `<div class="prim"><label style="font-size:.75rem;font-weight:700;color:var(--muted)">${key} (JSON)</label><textarea class="json" id="raw" style="width:100%;min-height:300px;font-family:var(--mono);font-size:.8rem;margin-top:6px">${esc(JSON.stringify(v, null, 2))}</textarea></div>`; }
+    say(`${cur.file}.js › ${key} — ${kind === 'raw' ? 'raw JSON' : model.length + ' rows'}`);
+  }
+  function fieldsOf(rows) { const s = new Set(); rows.forEach(r => Object.keys(r).forEach(k => s.add(k))); return [...s]; }
+  function renderRows() {
+    const fields = fieldsOf(model).filter(f => f !== '__key');
+    const host = document.createElement('div'); host.className = 'rows';
+    model.forEach((row, i) => host.appendChild(rowEl(row, i, fields)));
+    editor.appendChild(host);
+  }
+  function rowEl(row, i, fields) {
+    const el = document.createElement('div'); el.className = 'row'; el.dataset.i = i;
+    const idv = kind === 'object' ? row.__key : (row.id || row.hamlet || row.name || row.title || row.date || ('#' + (i + 1)));
+    el.innerHTML = `<div class="id"><span>${kind === 'object' ? `<input data-f="__key" value="${esc(row.__key)}" style="font-family:var(--mono);width:220px">` : esc(String(idv))}</span><button class="del" title="Delete row">delete</button></div>`;
+    fields.forEach(f => {
+      const val = row[f]; const lab = document.createElement('label'); lab.textContent = f;
+      let inp;
+      if (typeof val === 'boolean') { inp = document.createElement('select'); inp.innerHTML = '<option value="true">true</option><option value="false">false</option>'; inp.value = String(val); inp.dataset.t = 'bool'; }
+      else if (typeof val === 'number') { inp = document.createElement('input'); inp.type = 'number'; inp.step = 'any'; inp.value = val; inp.dataset.t = 'num'; }
+      else if (val === null || val === undefined) { inp = document.createElement('input'); inp.value = ''; inp.dataset.t = 'str'; inp.placeholder = '(empty)'; }
+      else if (typeof val === 'object') { inp = document.createElement('textarea'); inp.className = 'json'; inp.value = JSON.stringify(val, null, 1); inp.dataset.t = 'json'; }
+      else { const s = String(val); inp = document.createElement(s.length > 60 || s.includes('\n') ? 'textarea' : 'input'); inp.value = s; inp.dataset.t = 'str'; }
+      inp.dataset.f = f; lab.appendChild(inp); el.appendChild(lab);
+      if (inp.tagName === 'TEXTAREA' && inp.dataset.t !== 'json' && String(val).length > 160) lab.style.gridColumn = '1 / -1';
+    });
+    el.addEventListener('input', e => { el.classList.add('dirty'); const inp = e.target; if (inp.dataset.t === 'json') { try { JSON.parse(inp.value); el.classList.remove('bad'); } catch (x) { el.classList.add('bad'); } } });
+    el.querySelector('.del').addEventListener('click', () => { if (confirm('Delete this row?')) { el.remove(); el.dataset.deleted = '1'; editor.dataset.dirty = '1'; say('row removed — Save to write', 'err'); } });
+    return el;
+  }
+  function addRow() {
+    if (kind === 'raw') return;
+    const fields = fieldsOf(model).filter(f => f !== '__key'); const blank = {}; fields.forEach(f => { const sample = model.find(r => r[f] !== undefined); const v = sample ? sample[f] : ''; blank[f] = typeof v === 'boolean' ? false : typeof v === 'number' ? 0 : (v && typeof v === 'object') ? (Array.isArray(v) ? [] : {}) : ''; });
+    if (kind === 'object') blank.__key = 'newKey' + (model.length + 1);
+    model.push(blank); const host = editor.querySelector('.rows'); const el = rowEl(blank, model.length - 1, fields); el.classList.add('dirty'); host.prepend(el); el.scrollIntoView({ block: 'center' });
+  }
+  function applyFilter() { const q = $('#filter').value.toLowerCase(); editor.querySelectorAll('.row').forEach(r => { r.hidden = q && !r.textContent.toLowerCase().includes(q) && ![...r.querySelectorAll('input,textarea')].some(i => i.value.toLowerCase().includes(q)); }); }
+
+  // --- collect + save ---
+  function collect() {
+    if (kind === 'raw') return JSON.parse($('#raw').value);
+    const rows = [...editor.querySelectorAll('.row')].filter(r => !r.dataset.deleted);
+    const out = rows.map(r => { const o = {}; r.querySelectorAll('[data-f]').forEach(inp => { const f = inp.dataset.f, t = inp.dataset.t; let v = inp.value; if (t === 'num') v = v === '' ? null : Number(v); else if (t === 'bool') v = v === 'true'; else if (t === 'json') v = JSON.parse(v); o[f] = v; }); return o; });
+    if (kind === 'object') { const obj = {}; out.forEach(o => { const k = o.__key; delete o.__key; obj[k] = o; }); return obj; }
+    return out;
+  }
+  async function save() {
+    let value; try { value = collect(); } catch (e) { say('fix invalid JSON first: ' + e.message, 'err'); return; }
+    say('saving…');
+    const r = await fetch('/api/data/' + cur.file, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: cur.key, value }) });
+    const j = await r.json();
+    if (j.ok) { data[cur.key] = value; editor.querySelectorAll('.row').forEach(x => x.classList.remove('dirty')); say(`saved ${cur.file}.js › ${cur.key}`, 'ok'); } else say('save failed: ' + j.error, 'err');
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+  window.addEventListener('beforeunload', e => { if (editor.querySelector('.row.dirty') || editor.dataset.dirty) { e.preventDefault(); e.returnValue = ''; } });
+})();
+</script>
+</body>
+</html>

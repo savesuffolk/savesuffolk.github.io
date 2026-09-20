@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#2f7d5a">
+<title>Our Water — Stop Project Sunrise</title>
+<meta name="description" content="Interactive, sourced screening models of what 84 acres of truck-court and roof runoff injected through drywells means for the Nassau–Suffolk Sole Source Aquifer, Sans Souci Lakes and SCWA wells.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231f7a3d'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-nav"></div>
+
+<section class="block" style="border-top:0">
+  <div class="wrap">
+    <h2><i data-icon="droplet"></i> Our drinking water</h2>
+    <p class="lede">Every drop of drinking water in Suffolk County comes from the ground beneath it — one aquifer shared by 1.5 million people. The site sits over it, 19 feet above the water table in fast-draining sand, between two well fields and upstream of Sans Souci Lakes, Brown's River and the Great South Bay. The plan sends runoff from 84 acres of roof and truck court straight into the ground. Watch what changes.</p>
+    <div id="water-map"><p class="muted">Loading map…</p></div>
+    <div class="photo-strip">
+      <div class="photo wide" data-photo="sans-souci" data-caption="Sans Souci County Park, Sayville: the water table at the surface, fed by groundwater flowing south from under the site"></div>
+      <div class="photo wide" data-photo="great-south-bay" data-caption="The Great South Bay: where groundwater from under the site ends up, roughly 25–30 years after it enters the ground"></div>
+    </div>
+    <details class="how" style="margin-top:28px" id="water-math"><summary>Show the math: five models with every assumption on a slider</summary><div id="water-app" style="margin-top:12px"><p class="muted">Loading simulations…</p></div></details>
+    <p style="margin-top:24px"><a class="btn" href="act.html#officials">Tell NYSDEC, SCWA and the Town Board</a> <a class="btn secondary" href="issues.html">Back to the issues</a></p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="data/facts.js"></script>
+<script src="data/photos-local.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/events.js"></script>
+<script src="data/water-params.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/water.js"></script>
+<script src="js/watermap.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

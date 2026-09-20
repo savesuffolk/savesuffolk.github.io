@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#2f7d5a">
+<title>Noise TITLEamp; Light — Stop Project Sunrise</title>
+<meta name="description" content="How loud will Amazon's 24/7 Project Sunrise warehouse be at your house? Enter your address. Sourced source levels, NYSDEC and WHO thresholds, and what neighbors of other Amazon facilities measured.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231f7a3d'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-nav"></div>
+<section class="block" style="border-top:0">
+  <div class="wrap">
+    <h2><i data-icon="moon"></i> How many times a night?</h2>
+    <p class="lede">Project Sunrise runs 24 hours a day, every day, with 115 loading docks. By the applicant's own count, a truck arrives or leaves every 2.6 minutes — all night. Amazon has not filed a noise study. So: pick how close you live, and see what published sound levels and the World Health Organization's sleep thresholds say about your bedroom.</p>
+    <div id="noise-app"><p class="muted">Loading…</p></div>
+  </div>
+</section>
+
+<section class="block" id="listen">
+  <div class="wrap">
+    <h2><i data-icon="volume"></i> Hear it from Amazon's neighbors</h2>
+    <p class="lede">Not a simulation. People who live next to Amazon facilities, on the record. Neighbors rarely post bedroom-window audio, so these are news segments and testimony; we confirmed each exists — listen before you share.</p>
+    <div class="vgrid" id="noise-listen"></div>
+  </div>
+</section>
+
+<section class="block" id="elsewhere">
+  <div class="wrap">
+    <h2><i data-icon="map"></i> It already happened to other neighbors</h2>
+    <p class="lede">What people next to Amazon docks measured, what they were promised, and what it took to get relief. <a href="voices.html">Their own words ›</a></p>
+    <div id="noise-cases"></div>
+  </div>
+</section>
+
+<section class="block" id="health">
+  <div class="wrap">
+    <h2><i data-icon="heart"></i> Sleep, hearts, kids</h2>
+    <p class="lede">Night noise is a health exposure, not an annoyance. The numbers are the World Health Organization's.</p>
+    <div id="noise-health"></div>
+  </div>
+</section>
+
+<section class="block do-strip" id="demand">
+  <div class="wrap">
+    <h2><i data-icon="megaphone"></i> Before any vote, in writing</h2>
+    <p class="lede">These are the conditions other towns learned to demand the hard way. Ask for them by name at the hearing.</p>
+    <div class="lane" style="max-width:820px"><div id="noise-asks"></div><a class="btn yellow" href="act.html#testimony">Put this in your 3-minute statement</a></div>
+  </div>
+</section>
+
+<section class="block" id="light">
+  <div class="wrap">
+    <h2><i data-icon="sun"></i> Light, all night</h2>
+    <p class="lede">A 138-acre truck terminal is lit like a stadium parking lot. The lighting plan is not filed either.</p>
+    <div id="noise-light"></div>
+  </div>
+</section>
+
+<section class="block" id="sources">
+  <div class="wrap">
+    <h2><i data-icon="file"></i> Sources and the math</h2>
+    <p class="lede">Every number above comes from a published acoustical study, a manufacturer's rating, the State's noise policy or WHO. The full arithmetic is under "Show the math" in the calculator.</p>
+    <div class="grid cols-2">
+      <div class="chart-box"><h4>Source sound levels</h4><div class="tbl-wrap" id="noise-sources"></div></div>
+      <div class="chart-box"><h4>For comparison</h4><div id="noise-ladder"></div></div>
+    </div>
+    <h3 style="margin-top:32px"><i data-icon="scale"></i> What the rules say</h3>
+    <div id="noise-rules"></div>
+    <details class="how" style="margin-top:14px"><summary>Every assumption in the model</summary><div id="noise-assumptions"></div></details>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="data/facts.js"></script>
+<script src="data/photos-local.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/events.js"></script>
+<script src="data/noise-params.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+<script src="js/noise.js"></script>
+</body>
+</html>

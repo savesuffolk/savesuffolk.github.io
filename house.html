@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#2f7d5a">
+<title>Your House — Stop Project Sunrise</title>
+<meta name="description" content="Type your address and see what Amazon's Project Sunrise means for your house: your sleep, your home value, your roads, your water, your taxes, and exactly what to do about it.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231f7a3d'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="site-nav"></div>
+<div id="house-subnav" class="subnav" hidden>
+  <div class="wrap">
+    <div class="subnav-tabs" id="drawer-tabs" role="tablist"></div>
+    <div class="subnav-addr">
+      <button class="locpill" id="loc-pill" type="button" aria-haspopup="dialog" aria-expanded="false"><i data-icon="pin"></i><span id="subnav-addr">Where do you live?</span><i data-icon="chevron" data-cls="chev"></i></button>
+      <div class="locpop" id="loc-pop" hidden role="dialog" aria-label="Change your location">
+        <form id="subnav-form" class="locpop-form"><label class="lab" for="subnav-input">Your address</label><div class="addr-row"><input type="text" id="subnav-input" placeholder="21 Glensummer Rd, Holbrook" autocomplete="street-address"><button class="btn" type="submit">Go</button></div><div class="small muted" id="loc-status"></div></form>
+        <div class="locpop-or">or just how close you are</div>
+        <div class="seg big" id="loc-dist"><button type="button" data-ft="300">Backs up to it</button><button type="button" data-ft="1500">Within ½ mile</button><button type="button" data-ft="4000">½ to 1 mile</button><button type="button" data-ft="8000">Farther</button></div>
+        <div class="locpop-or">or your hamlet</div>
+        <select id="subnav-hamlet" aria-label="Pick your hamlet"><option value="">Pick your hamlet…</option></select>
+        <div class="small muted" style="margin-top:10px">Stays on your phone. Nothing is sent to us.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="block" id="house-intro" style="border-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Your house</div>
+    <h2><i data-icon="home"></i> What it means for you.</h2>
+    <p class="lede">One address. Six answers: your sleep, your home's value, your roads, your water, your taxes, and who decides. Then the two things you should do this week. Everything stays in your browser.</p>
+    <form id="house-form" class="house-form">
+      <div class="addr-row"><input id="house-addr" type="text" placeholder="21 Glensummer Rd, Holbrook" autocomplete="street-address" aria-label="Your address"><button class="btn" type="submit"><i data-icon="search"></i> How close am I?</button></div>
+      <div class="small muted" id="house-status" style="min-height:1.3em;margin-top:6px"></div>
+      <div class="small muted">Rather not type it? <select id="house-hamlet" aria-label="Pick your hamlet"><option value="">Pick your hamlet…</option></select></div>
+    </form>
+  </div>
+</section>
+<section class="block" id="house-report-sec" style="border-top:0" hidden>
+  <div class="wrap"><div id="house-report"></div></div>
+</section>
+
+<!-- Drawer: opened under the cards by house.js. Panels below are rendered at load by the same modules that power the deep pages, then moved into the drawer on demand. -->
+<section class="block" id="house-view" style="border-top:0" hidden>
+  <div class="wrap">
+    <div class="drawer-head"><h2 id="drawer-title"></h2><div class="drawer-acts"><a id="drawer-full" class="small" href="#">Open as its own page ›</a><button class="btn sm secondary" id="drawer-close" type="button">← Overview</button></div></div>
+    <div id="drawer-body"></div>
+  </div>
+</section>
+<div id="house-panels" hidden>
+
+  <div class="panel" id="panel-sleep" data-title="Your sleep" data-full="noise.html">
+    <p class="lede">115 loading docks, a truck every 2.6 minutes, all night, every night. Amazon has not filed a noise study. This is the count for your address.</p>
+    <div id="noise-app" data-compact="1"><p class="muted">Loading…</p></div>
+    <h3 class="panel-h"><i data-icon="volume"></i> From people who live next to one</h3>
+    <div class="vgrid" id="noise-listen" data-limit="3"></div>
+    <div class="qgrid pull" id="voices-pull" data-topic="night" data-limit="3" style="margin-top:14px"></div>
+    <p class="small" style="margin-top:10px"><a href="voices.html">All 56 quotes, by town ›</a></p>
+    <h3 class="panel-h"><i data-icon="megaphone"></i> Ask for it in writing</h3>
+    <div id="noise-asks" data-limit="3"></div>
+    <details class="how" style="margin-top:22px"><summary>Sources, other towns, health, the rules and every assumption</summary>
+      <h4 style="margin-top:18px">It already happened to other neighbors</h4><div id="noise-cases"></div>
+      <h4 style="margin-top:18px">Sleep, hearts, kids</h4><div id="noise-health"></div>
+      <div class="grid cols-2" style="margin-top:18px"><div class="chart-box"><h4>Source sound levels</h4><div class="tbl-wrap" id="noise-sources"></div></div><div class="chart-box"><h4>For comparison</h4><div id="noise-ladder"></div></div></div>
+      <h4 style="margin-top:18px">What the rules say</h4><div id="noise-rules"></div>
+      <h4 style="margin-top:18px">Assumptions</h4><div id="noise-assumptions"></div>
+    </details>
+  </div>
+
+  <div class="panel" id="panel-home" data-title="Your home's value" data-full="values.html">
+    <p class="lede">Buyers have already voted on warehouses next to houses. Slide to what your home is worth; the distance is yours.</p>
+    <div id="values-sim" data-compact="1"></div>
+    <div id="house-taxes"></div>
+    <div class="qgrid pull" id="voices-pull-values" data-topic="values" data-limit="2" style="margin-top:22px"></div>
+    <h3 class="panel-h"><i data-icon="megaphone"></i> Ask for it in writing</h3>
+    <ol class="asks-list"><li>The Town's own estimate of the effect on assessed values within a mile, and who makes up the difference in the Sachem and Connetquot levies.</li><li>The Islip IDA's proposed tax-break schedule by year and by taxing body, before any vote.</li><li>A written answer to the appraisal profession's term for this: external obsolescence.</li></ol>
+    <details class="how" style="margin-top:22px"><summary>The studies, the precedent next door, and what Amazon will say</summary>
+      <h4 style="margin-top:18px">Closer to home</h4><div id="values-precedent"></div>
+      <h4 style="margin-top:18px">How the tax shift works</h4><div id="values-tax"></div>
+      <h4 style="margin-top:18px">What Amazon will say</h4><div id="values-counter"></div>
+      <h4 style="margin-top:18px">The nine studies behind the numbers</h4><div id="values-rows"></div>
+    </details>
+  </div>
+
+  <div class="panel" id="panel-roads" data-title="Your roads" data-full="issues.html#traffic">
+    <p class="lede">555 truck trips on an average weekday, 809 in peak season, all on two roads that already fail at rush hour — and a road bill that lands on county taxpayers.</p>
+    <div id="roads-app"><p class="muted">Loading…</p></div>
+    <div id="house-corridor" style="margin-top:22px"></div>
+    <details class="how" style="margin-top:22px"><summary>The study's crash and traffic charts</summary>
+      <div class="grid cols-2" style="margin-top:12px">
+        <div class="chart-box"><h4>Crash rate vs. NYSDOT average</h4><canvas id="chart-crash" height="260"></canvas><div class="note">544 collisions at the studied intersections in three years. Every one already exceeds the NYSDOT comparison rate. Source: applicant's traffic study.</div></div>
+        <div class="chart-box"><h4>Daily trips the facility generates</h4><canvas id="chart-trips" height="260"></canvas><div class="note">Truck figures are one-way trips; "Flex" are delivery drivers' personal cars. Source: TIS Tables A5/A6, operator-supplied schedules.</div></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="panel" id="panel-water" data-title="Your water" data-full="water.html">
+    <p class="lede">Every tap in Suffolk draws from the ground under it. The site sits over that aquifer, 19 feet above the water table, between two well fields and upstream of Sans Souci Lakes and the bay. Watch what changes.</p>
+    <div id="water-map"><p class="muted">Loading map…</p></div>
+    <div id="house-water-note" style="margin-top:18px"></div>
+    <h3 class="panel-h"><i data-icon="megaphone"></i> Ask for it in writing</h3>
+    <ol class="asks-list"><li>A hydrogeologic study, with boring logs behind the "19 feet" and a measured water table, before any vote.</li><li>The drywell count, depth and pretreatment design, and the deicing plan for 44 acres of pavement.</li><li>Which SCWA well will serve the site, and SCWA's written position on infiltrating truck-court runoff upgradient of its wells.</li></ol>
+    <details class="how" style="margin-top:22px"><summary>Show the math: five models with every assumption on a slider</summary><div id="water-app" style="margin-top:12px"><p class="muted">Loading simulations…</p></div></details>
+  </div>
+
+  <div class="panel" id="panel-more" data-title="Also on the table" data-full="issues.html">
+    <p class="lede">Categories the filing barely touches: who answers the ambulance, who repaves the road, where the power comes from, and what the tax break costs the schools. Every fact links to its source; each section ends with what to demand in writing.</p>
+    <div id="more-rows"></div>
+  </div>
+
+  <div class="panel" id="panel-say" data-title="Who decides, and how to reach them" data-full="act.html">
+    <div id="house-hearings"></div>
+    <h3 style="margin-top:28px"><i data-icon="users"></i> Your representatives on this decision</h3>
+    <div class="grid cols-3" id="house-reps"></div>
+    <h3 style="margin-top:36px"><i data-icon="mic"></i> Speak at the hearing</h3>
+    <p class="small muted">Three minutes is about 350 words. Pick a topic nobody else has claimed; the draft carries the filing's numbers and your address sentence.</p>
+    <div class="you-box"><div class="form">
+      <label>Your name <input type="text" id="you-name" placeholder="Jane Resident"></label>
+      <label>Your street <input type="text" id="you-street" placeholder="Glensummer Rd"></label>
+      <label>Hamlet <input type="text" id="you-town" placeholder="Holbrook" value="Holbrook"></label>
+      <span class="small muted">Saved only in your browser. Used to fill in templates.</span>
+    </div></div>
+    <div class="cal-controls"><select id="testimony-topic"></select><button class="btn sm" id="testimony-open"><i data-icon="pen"></i> Draft it</button></div>
+    <h3 style="margin-top:36px"><i data-icon="megaphone"></i> Everyone with a say, in order of leverage</h3>
+    <div id="officials"></div>
+  </div>
+
+</div>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="data/facts.js"></script>
+<script src="data/photos-local.js"></script>
+<script src="data/photos.js"></script>
+<script src="data/events.js"></script>
+<script src="data/districts.js"></script>
+<script src="data/corridors.js"></script>
+<script src="data/officials.js"></script>
+<script src="data/templates.js"></script>
+<script src="data/noise-params.js"></script>
+<script src="data/values.js"></script>
+<script src="data/impacts.js"></script>
+<script src="data/roads.js"></script>
+<script src="data/voices.js"></script>
+<script src="data/water-params.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/water.js"></script>
+<script src="js/watermap.js"></script>
+<script src="js/roads.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/locate.js"></script>
+<script src="js/noise.js"></script>
+<script src="js/values.js"></script>
+<script src="js/voices.js"></script>
+<script src="js/house.js"></script>
+</body>
+</html>
