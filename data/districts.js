@@ -59,3 +59,59 @@ SPS.hamlets = [
   { hamlet: "North Bay Shore", town: "Islip", zip: ["11706"], county: [{ district: 17, name: "Tom Donnelly" }], assembly: [{ district: 6, name: "Phil Ramos" }, { district: 12, name: "Keith Brown" }], senate: [{ district: 4, name: "Monica R. Martinez" }], split: true, confidence: "high", note: "Assembly ~70% AD6 / 30% AD12 (west)." },
   { hamlet: "Huntington Station", town: "Huntington", zip: ["11746"], county: [{ district: 16, name: "Rebecca Sanin" }, { district: 18, name: "Stephanie Bontempi" }], assembly: [{ district: 10, name: "Steve Stern" }], senate: [{ district: 2, name: "Mario R. Mattera" }], split: true, confidence: "high", note: "County ~87% LD16; the northern portion (~13%) LD18." }
 ];
+
+// Hamlet centre points and straight-line distance to the site, so that picking a hamlet gives a distance that belongs to
+// that hamlet instead of the map's default. Centroids geocoded once from OpenStreetMap (Nominatim) against
+// "<hamlet>, Suffolk County, New York"; distance measured from the centre of the property polygon in noise-params.js
+// (40.77356, -73.05884). These are hamlet centres, not anyone's address — always shown as approximate.
+window.SPS = window.SPS || {};
+SPS.hamletGeo = {
+  "Babylon":                 { lat: 40.69566, lon: -73.32568, mi: 14.97 },
+  "Bay Shore":               { lat: 40.72765, lon: -73.24352, mi: 10.17 },
+  "Bayport":                 { lat: 40.74885, lon: -73.05221, mi: 1.74 },
+  "Bellport":                { lat: 40.75725, lon: -72.93947, mi: 6.35 },
+  "Blue Point":              { lat: 40.75291, lon: -73.03302, mi: 1.97 },
+  "Bohemia":                 { lat: 40.77061, lon: -73.12007, mi: 3.21 },
+  "Brentwood":               { lat: 40.78263, lon: -73.25663, mi: 10.37 },
+  "Brightwaters":            { lat: 40.72093, lon: -73.26734, mi: 11.50 },
+  "Centereach":              { lat: 40.86775, lon: -73.08398, mi: 6.64 },
+  "Central Islip":           { lat: 40.78073, lon: -73.19282, mi: 7.03 },
+  "Commack":                 { lat: 40.83935, lon: -73.28590, mi: 12.72 },
+  "Coram":                   { lat: 40.87971, lon: -73.00400, mi: 7.88 },
+  "Deer Park":               { lat: 40.76225, lon: -73.32286, mi: 13.84 },
+  "East Islip":              { lat: 40.72292, lon: -73.18343, mi: 7.40 },
+  "East Patchogue":          { lat: 40.76948, lon: -72.98498, mi: 3.88 },
+  "Farmingville":            { lat: 40.84065, lon: -73.03494, mi: 4.80 },
+  "Great River":             { lat: 40.71991, lon: -73.14768, mi: 5.95 },
+  "Hauppauge":               { lat: 40.82374, lon: -73.20623, mi: 8.45 },
+  "Holbrook":                { lat: 40.79938, lon: -73.06977, mi: 1.87 },
+  "Holtsville":              { lat: 40.80931, lon: -73.03206, mi: 2.84 },
+  "Huntington Station":      { lat: 40.84724, lon: -73.40363, mi: 18.74 },
+  "Islip":                   { lat: 40.73007, lon: -73.21073, mi: 8.50 },
+  "Islip Terrace":           { lat: 40.75052, lon: -73.18557, mi: 6.82 },
+  "Lake Grove":              { lat: 40.85288, lon: -73.11511, mi: 6.22 },
+  "Lake Ronkonkoma":         { lat: 40.83067, lon: -73.10453, mi: 4.61 },
+  "Lindenhurst":             { lat: 40.68677, lon: -73.37345, mi: 17.53 },
+  "Mastic":                  { lat: 40.81063, lon: -72.84576, mi: 11.44 },
+  "Mastic Beach":            { lat: 40.76423, lon: -72.83553, mi: 11.70 },
+  "Medford":                 { lat: 40.82282, lon: -72.98874, mi: 5.00 },
+  "Middle Island":           { lat: 40.87924, lon: -72.94014, mi: 9.58 },
+  "Nesconset":               { lat: 40.84509, lon: -73.15231, mi: 6.95 },
+  "North Babylon":           { lat: 40.73044, lon: -73.32638, mi: 14.32 },
+  "North Bay Shore":         { lat: 40.76149, lon: -73.26095, mi: 10.61 },
+  "North Bellport":          { lat: 40.78701, lon: -72.95054, mi: 5.74 },
+  "North Patchogue":         { lat: 40.78410, lon: -73.02555, mi: 1.89 },
+  "Oakdale":                 { lat: 40.73850, lon: -73.13522, mi: 4.67 },
+  "Patchogue":               { lat: 40.76565, lon: -73.01511, mi: 2.35 },
+  "Port Jefferson Station":  { lat: 40.92259, lon: -73.06574, mi: 10.30 },
+  "Ronkonkoma":              { lat: 40.80752, lon: -73.13599, mi: 4.67 },
+  "Sayville":                { lat: 40.74535, lon: -73.08852, mi: 2.49 },
+  "Selden":                  { lat: 40.87124, lon: -73.04542, mi: 6.79 },
+  "Shirley":                 { lat: 40.79360, lon: -72.87133, mi: 9.91 },
+  "Smithtown":               { lat: 40.85593, lon: -73.20067, mi: 9.35 },
+  "Stony Brook":             { lat: 40.90848, lon: -73.13255, mi: 10.09 },
+  "West Babylon":            { lat: 40.70437, lon: -73.35013, mi: 15.98 },
+  "West Islip":              { lat: 40.70645, lon: -73.29877, mi: 13.39 },
+  "West Sayville":           { lat: 40.72923, lon: -73.10626, mi: 3.94 },
+};
+SPS.hamletGeoSource = "Hamlet centres from OpenStreetMap (ODbL), geocoded 2026-09-22; distance measured to the centre of the site polygon.";

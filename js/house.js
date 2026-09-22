@@ -33,6 +33,14 @@
   function bandLabel(ft) { return ft <= 820 ? "your yard is next to it" : ft <= 2640 ? "within half a mile" : ft <= 5280 ? "within a mile" : "more than a mile away"; }
 
   /* ---------- compute ---------- */
+  // Picking a hamlet with no address: fall back to that hamlet's own centre distance rather than the map default.
+  function withHamletDistance(rec) {
+    if (!rec || rec.ft != null || !rec.hamlet) return rec;
+    var g = (SPS.hamletGeo || {})[typeof rec.hamlet === "string" ? rec.hamlet : rec.hamlet.hamlet];
+    if (!g) return rec;
+    var ft = Math.round(g.mi * 5280);
+    return Object.assign({}, rec, { ft: ft, dockFt: ft + 240, lat: g.lat, lon: g.lon, approx: true, fromHamlet: true, hamletMi: g.mi });
+  }
   function compute(rec) {
     var out = { ft: rec.ft, hamlet: hamletByName(rec.hamlet), addr: rec.label };
     var trips = (SPS.trips && SPS.trips.avg.trucks) || 555;
@@ -46,13 +54,15 @@
       var b = SPS.valuesModel.bandForFt(rec.ft), v = SPS.values.local.zhvi.value;
       out.value = { band: b, lo: v * b.lo, hi: v * b.hi, base: v };
     }
+    out.fromHamlet = !!rec.fromHamlet; out.hamletMi = rec.hamletMi;
     if (out.hamlet) out.corridors = (SPS.corridors || []).filter(function (c) { return c.hamlets.indexOf(out.hamlet.hamlet) >= 0; });
     out.hearing = decisiveHearing();
     return out;
   }
   function impactSentence(r) {
     var parts = [];
-    if (r.ft != null) parts.push("I live about " + (r.ft > 5280 ? fmt(r.ft / 5280, 1) + " miles" : fmt(Math.round(r.ft / 10) * 10) + " feet") + " from the site" + (r.hamlet ? " in " + r.hamlet.hamlet : "") + ".");
+    if (r.fromHamlet && r.hamlet) parts.push("I live in " + r.hamlet.hamlet + ", whose centre is about " + fmt(r.hamletMi, 1) + " miles from the site.");
+    else if (r.ft != null) parts.push("I live about " + (r.ft > 5280 ? fmt(r.ft / 5280, 1) + " miles" : fmt(Math.round(r.ft / 10) * 10) + " feet") + " from the site" + (r.hamlet ? " in " + r.hamlet.hamlet : "") + ".");
     if (r.night && r.night.wake) parts.push("Using published sound levels and WHO sleep thresholds, that is " + fmt(r.night.wake) + " dock events a night loud enough to wake me in my bedroom.");
     else if (r.night && r.night.eeg) parts.push("Using published sound levels and WHO sleep thresholds, " + fmt(r.night.eeg) + " dock events a night would be loud enough in my bedroom to fragment my sleep.");
     if (r.value && r.value.hi) parts.push("Applying the published percentages from the peer-reviewed studies cited on savesuffolk.org (de Vor & de Groot 2011; Robert et al., SSRN 2024) to a typical home at my distance gives " + money(r.value.lo) + " to " + money(r.value.hi) + " off its value.");
@@ -148,10 +158,11 @@
   }
   function render(rec) {
     var host = $("#house-report"); if (!host) return;
+    rec = withHamletDistance(rec);
     var r = compute(rec), cards = []; current = r; r.lat = rec.lat; r.lon = rec.lon; var slot = {}; current.sev = {}; current.dockFt = rec.dockFt != null ? rec.dockFt : (rec.ft != null ? rec.ft + 240 : null);
     var hf = r.hamlet && SPS.hamletFacts && SPS.hamletFacts[r.hamlet.hamlet];
     var who = hf ? '<p class="small muted whoLine">In ' + esc(r.hamlet.hamlet) + ', about one home in three has kids and about one neighbor in five is over 65 — the people who hear night noise most. <span class="muted">(' + esc(SPS.hamletFacts.source) + ')</span></p>' : "";
-    var where = (r.addr ? "<strong>" + esc(r.addr) + "</strong>" : (r.hamlet ? "<strong>" + esc(r.hamlet.hamlet) + "</strong>" : "")) + (rec.approx ? " — a home " + bandLabel(r.ft) : "") + (r.ft != null && !rec.approx ? " — about " + (r.ft > 5280 ? fmt(r.ft / 5280, 1) + " miles" : fmt(Math.round(r.ft / 10) * 10) + " ft") + " from the property line, " + bandLabel(r.ft) : "") + (r.hamlet && r.hamlet.town ? " · Town of " + esc(r.hamlet.town) : "");
+    var where = (r.addr ? "<strong>" + esc(r.addr) + "</strong>" : (r.hamlet ? "<strong>" + esc(r.hamlet.hamlet) + "</strong>" : "")) + (rec.fromHamlet ? " — about " + fmt(rec.hamletMi, 1) + " miles from the site, measured from the centre of the hamlet" : rec.approx ? " — a home " + bandLabel(r.ft) : "") + (r.ft != null && !rec.approx ? " — about " + (r.ft > 5280 ? fmt(r.ft / 5280, 1) + " miles" : fmt(Math.round(r.ft / 10) * 10) + " ft") + " from the property line, " + bandLabel(r.ft) : "") + (r.hamlet && r.hamlet.town ? " · Town of " + esc(r.hamlet.town) : "");
     if (hf && hf.kids < 30) who = who.replace("about one home in three has kids", "about three homes in ten have kids");
 
     // sleep
