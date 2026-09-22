@@ -8,6 +8,7 @@
   const LS = { name: 'sps.you.name', street: 'sps.you.street', town: 'sps.you.town', log: 'sps.calllog' };
 
   /* ---- personalization ---- */
+  function concernsText() { const L = SPS.concerns ? SPS.concerns.list() : []; if (!L.length) return ''; return 'Specifically, before any vote, I ask for the following in writing:\n' + L.map((x, i) => (i + 1) + '. ' + x.text + ' (' + x.who + ')').join('\n') + '\n\n'; }
   function impact() { try { return localStorage.getItem('sps.impact') || ''; } catch (e) { return ''; } }
   function you() {
     return { name: ($('#you-name') || {}).value || '', street: ($('#you-street') || {}).value || '', town: ($('#you-town') || {}).value || 'Holbrook' };
@@ -19,7 +20,8 @@
       .replace(/\{\{street\}\}/g, y.street || '[your street]')
       .replace(/\{\{town\}\}/g, y.town || 'Holbrook')
       .replace(/\{\{official\}\}/g, official || '[official]')
-      .replace(/\{\{impact\}\}\n?\n?/g, (impact() ? impact() + '\n\n' : ''));
+      .replace(/\{\{impact\}\}\n?\n?/g, (impact() ? impact() + '\n\n' : ''))
+      .replace(/\{\{concerns\}\}\n?\n?/g, concernsText());
   }
   function saveYou() { try { localStorage.setItem(LS.name, $('#you-name').value); localStorage.setItem(LS.street, $('#you-street').value); localStorage.setItem(LS.town, $('#you-town').value); } catch (e) {} }
   function loadYou() { try { $('#you-name').value = localStorage.getItem(LS.name) || ''; $('#you-street').value = localStorage.getItem(LS.street) || ''; $('#you-town').value = localStorage.getItem(LS.town) || 'Holbrook'; } catch (e) {} }
@@ -110,7 +112,7 @@
     $('#testimony-open').addEventListener('click', () => {
       const t = (T().testimony || []).find(x => x.id === sel.value); if (!t) return;
       SPS.openModal(`<h3>${esc(t.topic)}</h3><p class="small muted">Best venue: ${esc(t.hearing)}. ~3 minutes ≈ 350 words. Sign in to speak when you arrive.</p>
-        <textarea id="m-body" style="min-height:320px">${esc(fill(t.draft))}</textarea>
+        <textarea id="m-body" style="min-height:320px">${esc(fill(t.draft))}${SPS.concerns && SPS.concerns.list().length ? '\n\nBefore any vote, I ask for these in writing:\n' + esc(SPS.concerns.text('say')) : ''}</textarea>
         <div class="acts"><button class="btn secondary" id="m-copy">Copy</button></div>
         <details class="how"><summary>Data behind this draft</summary><p>${esc(t.data || '')}</p><p>${esc(t.hook || '')}</p></details>`);
       $('#m-copy').addEventListener('click', () => SPS.copy($('#m-body').value));

@@ -644,7 +644,7 @@
       tb.appendChild(el("tr", null, el("th", { colspan: 6, text: g.title })));
       (g.params || []).forEach(function (p) {
         tb.appendChild(el("tr", null, el("td", { text: p.label }), el("td", { text: p.default + " " + p.unit }), el("td", { text: p.min + "–" + p.max }), el("td", null, basisTag(p.basis)),
-          el("td", null, p.url ? el("a", { href: p.url, target: "_blank", rel: "noopener", text: p.source }) : p.source), el("td", { text: p.note || "" })));
+          el("td", { html: SPS.srcHtml ? SPS.srcHtml(p.source, { url: p.url }) : String(p.source || "") }), el("td", { text: p.note || "" })));
       });
       (g.fixed || []).forEach(function (p) {
         tb.appendChild(el("tr", null, el("td", { text: p.label }), el("td", { text: p.value + " " + p.unit }), el("td", { text: "fixed" }), el("td", null, basisTag(p.basis)), el("td", { text: p.source || "" }), el("td", { text: "" })));

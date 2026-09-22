@@ -28,16 +28,15 @@
     <h2><i data-icon="truck"></i> Traffic, in the applicant's own study</h2>
     <p class="lede">555 truck trips on an average weekday, 809 in peak season, on two roads that already fail at rush hour. The schedules below are the operator's own numbers; nobody outside the company can check them.</p>
     <div id="roads-app"><p class="muted">Loading…</p></div>
-    <details class="how" style="margin-top:22px"><summary>The study's crash and traffic charts, and the corridor for your town</summary>
+    <details class="how" style="margin-top:22px"><summary>Crash and traffic charts from the applicant's traffic study</summary>
       <div class="photo-strip" style="margin-top:12px">
         <div class="photo" data-photo="earth-interchange" data-caption="Sunrise Hwy / Veterans Memorial Hwy at the site — where 555–809 daily truck trips would turn in"></div>
-        <div class="photo" data-photo="nicolls-rd" data-caption="Nicolls Road (CR 97): the study's designated truck route and 29% of all trips"></div>
+        <div class="photo" data-photo="nicolls-rd" data-caption="Nicolls Road (CR 97): the truck route designated in the applicant's traffic study, and 29% of all trips"></div>
       </div>
       <div class="grid cols-2" style="margin-top:18px">
-        <div class="chart-box"><h4>Crash rate vs. NYSDOT average (crashes per million entering vehicles)</h4><canvas id="chart-crash" height="260"></canvas><div class="note">544 collisions at the studied intersections, Jan 1 2023 – Jan 1 2026. Every intersection in the study's own table already exceeds the NYSDOT comparison rate.</div></div>
+        <div id="crash-rows"></div>
         <div class="chart-box"><h4>Daily trips the facility generates</h4><canvas id="chart-trips" height="260"></canvas><div class="note">"Flex" = Amazon Flex delivery drivers' personal cars. Truck figures are one-way trips. Source: TIS Tables A5/A6.</div></div>
       </div>
-      <p style="margin-top:18px"><a class="btn secondary" href="house.html">Which road do these trips use to reach <em>your</em> town?</a></p>
     </details>
   </div>
 </section>
@@ -77,12 +76,15 @@
 <script src="data/noise-params.js"></script>
 <script src="data/impacts.js"></script>
 <script src="data/roads.js"></script>
+<script src="data/asks.js"></script>
 <script src="data/corridors.js"></script>
 <script src="data/events.js"></script>
 <script src="js/calendar.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/icons.js"></script>
+<script src="js/sources.js"></script>
 <script src="js/app.js"></script>
+<script src="js/concerns.js"></script>
 <script src="js/roads.js"></script>
 </body>
 </html>

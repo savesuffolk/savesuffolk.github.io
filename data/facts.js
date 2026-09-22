@@ -105,14 +105,24 @@ SPS.scaleComparisons = [
 
 // Crash rates from the Stonefield TIS crash-rate summary table (crashes per million entering vehicles).
 SPS.crashRates = [
-  { intersection: "NYS 454 & Broadway Ave", crashes: 34, rate: 0.88, nysdotAvg: 0.25 },
-  { intersection: "Broadway Ave & Sunrise Hwy S. Service Rd", crashes: 40, rate: 1.59, nysdotAvg: 0.25 },
-  { intersection: "Nicolls Rd & Colin Dr / Greenbelt Pkwy", crashes: 87, rate: 1.12, nysdotAvg: 0.25 },
-  { intersection: "Sunrise Hwy N. Service Rd & Beacon Dr", crashes: 46, rate: 0.97, nysdotAvg: 0.12 },
-  { intersection: "NYS 454 & Lakeland Ave", crashes: 106, rate: 1.78, nysdotAvg: 0.25 },
-  { intersection: "NYS 454 & Express Dr South", crashes: 77, rate: 1.39, nysdotAvg: 0.25 },
-  { intersection: "NYS 454 & Express Dr North", crashes: 80, rate: 1.66, nysdotAvg: 0.25 }
+  { intersection: "NYS 454 & Broadway Ave", crashes: 34, mev: 38.62, rate: 0.88, nysdotAvg: 0.25 },
+  { intersection: "NYS 454 & Church St", crashes: 11, mev: 25.54, rate: 0.43, nysdotAvg: 0.18 },
+  { intersection: "Broadway Ave & Church St", crashes: 21, mev: 16.49, rate: 1.27, nysdotAvg: 0.25 },
+  { intersection: "Broadway Ave & Sunrise Hwy N. Service Rd", crashes: 20, mev: 22.18, rate: 0.90, nysdotAvg: 0.25 },
+  { intersection: "Broadway Ave & Sunrise Hwy S. Service Rd", crashes: 40, mev: 25.09, rate: 1.59, nysdotAvg: 0.25 },
+  { intersection: "Nicolls Rd & Colin Dr / Greenbelt Pkwy", crashes: 87, mev: 77.72, rate: 1.12, nysdotAvg: 0.25 },
+  { intersection: "Nicolls Rd & Church St", crashes: 22, mev: 19.00, rate: 1.16, nysdotAvg: 0.25 },
+  { intersection: "Sunrise Hwy N. Service Rd & Beacon Dr", crashes: 46, mev: 47.25, rate: 0.97, nysdotAvg: 0.12 },
+  { intersection: "NYS 454 & Lakeland Ave", crashes: 106, mev: 59.66, rate: 1.78, nysdotAvg: 0.25 },
+  { intersection: "NYS 454 & Express Dr South", crashes: 77, mev: 55.39, rate: 1.39, nysdotAvg: 0.25 },
+  { intersection: "NYS 454 & Express Dr North", crashes: 80, mev: 48.25, rate: 1.66, nysdotAvg: 0.25 }
 ];
+// Severity split from Table A2 of the traffic study, over Jan 1 2023 – Jan 1 2026 at the eleven study intersections.
+// The zero is the applicant's own figure, repeated per intersection in the study text, and we state it ourselves.
+SPS.crashSeverity = { crashes: 544, injury: 127, fatal: 0, pedestrian: 1, bicycle: 3, years: 3, intersections: 11,
+  source: "Stonefield TIS Table A2 (collision data summary); the study states \"zero (0) fatalities\" at each study intersection",
+  studyConclusion: "Collision rates at the study intersection are not anticipated to be adversely impacted due to the proposed development.",
+  status: "verified" };
 SPS.crashRatesSource = "Stonefield Traffic Impact Study (6/30/2026), NYSDOT collision data Jan 1 2023 – Jan 1 2026; 544 collisions total";
 
 // Daily trips, operator-supplied 24-hour schedules (TIS Tables A5/A6).
@@ -131,13 +141,13 @@ SPS.landCover = {
 
 // Overall intersection Level of Service (A best – F worst). "?" = not reported in the extraction.
 SPS.los = [
-  { intersection: "NYS 454 & Broadway Ave", delay: { existingAM: 57.2, buildAM: 62.9, existingPM: 58.4, buildPM: 70.6 }, existingAM: "E", existingPM: "E", noBuildAM: "E", noBuildPM: "E", buildAM: "E", buildPM: "E", note: "SB left/through LOS F both peaks; NB left degrades to F with project" },
-  { intersection: "Nicolls Rd & Colin Dr / Greenbelt Pkwy", delay: { existingAM: 74.2, buildAM: 70.7, existingPM: 49.9, buildPM: 48.9 }, existingAM: "E", existingPM: "D", noBuildAM: "F", noBuildPM: "E", buildAM: "E", buildPM: "D", note: "Multiple turning movements LOS F today; second NB left-turn lane proposed" },
-  { intersection: "NYS 454 & Lakeland Ave", delay: { existingAM: 79.9, buildAM: 85.3, existingPM: 73.7, buildPM: 80.5 }, existingAM: "E", existingPM: "E", noBuildAM: "E", noBuildPM: "E", buildAM: "E", buildPM: "E", note: "SB left remains LOS F after mitigation (1-second signal shift)" },
-  { intersection: "Sunrise Hwy N. Service Rd & Beacon Dr", existingAM: "E", existingPM: "E", noBuildAM: "?", noBuildPM: "F", buildAM: "A", buildPM: "A", note: "\"A\" assumes new signal, realigned Beacon Dr, dual SB right turns and a 4th WB through lane are built" },
-  { intersection: "NYS 454 & Express Dr North", delay: { existingAM: 66.4, buildAM: 69.9, existingPM: 42.4, buildPM: 43.9 }, existingAM: "E", existingPM: "D", noBuildAM: "E", noBuildPM: "D", buildAM: "E", buildPM: "D", note: "WB right LOS F both peaks today" },
-  { intersection: "NYS 454 & Express Dr South", delay: { existingAM: 30.4, buildAM: 31.7, existingPM: 51.4, buildPM: 59.2 }, existingAM: "C", existingPM: "D", noBuildAM: "C", noBuildPM: "D", buildAM: "C", buildPM: "E", note: "Degrades to overall LOS E in PM with project" },
-  { intersection: "NYS 454 & Church St (new gateway)", delay: { existingAM: null, buildAM: 16.6, existingPM: null, buildPM: 18.3 }, existingAM: "–", existingPM: "–", noBuildAM: "–", noBuildPM: "–", buildAM: "B", buildPM: "B", note: "Project's own entrance: NB left/through operates at LOS F in the AM peak" }
+  { intersection: "NYS 454 & Broadway Ave", delay: { existingAM: 57.2, buildAM: 62.9, existingPM: 58.4, buildPM: 70.6 }, existingAM: "E", existingPM: "E", noBuildAM: "E", noBuildPM: "E", buildAM: "E", buildPM: "E", note: "SB left/through LOS F both peaks; NB left degrades to F with project", plain: "The left turn from Broadway already fails. The study says the warehouse makes the other left turn fail too." },
+  { intersection: "Nicolls Rd & Colin Dr / Greenbelt Pkwy", delay: { existingAM: 74.2, buildAM: 70.7, existingPM: 49.9, buildPM: 48.9 }, existingAM: "E", existingPM: "D", noBuildAM: "F", noBuildPM: "E", buildAM: "E", buildPM: "D", note: "Multiple turning movements LOS F today; second NB left-turn lane proposed", plain: "Several turns already fail. The small improvement assumes a second left-turn lane gets built first." },
+  { intersection: "NYS 454 & Lakeland Ave", delay: { existingAM: 79.9, buildAM: 85.3, existingPM: 73.7, buildPM: 80.5 }, existingAM: "E", existingPM: "E", noBuildAM: "E", noBuildPM: "E", buildAM: "E", buildPM: "E", note: "SB left remains LOS F after mitigation (1-second signal shift)", plain: "The only fix offered is a one-second change to the signal timing. The left turn from Lakeland still fails." },
+  { intersection: "Sunrise Hwy N. Service Rd & Beacon Dr", existingAM: "E", existingPM: "E", noBuildAM: "?", noBuildPM: "F", buildAM: "A", buildPM: "A", note: "\"A\" assumes new signal, realigned Beacon Dr, dual SB right turns and a 4th WB through lane are built", plain: "The A assumes a new traffic light, a rebuilt Beacon Drive, two right-turn lanes and a fourth lane on the service road are all built first." },
+  { intersection: "NYS 454 & Express Dr North", delay: { existingAM: 66.4, buildAM: 69.9, existingPM: 42.4, buildPM: 43.9 }, existingAM: "E", existingPM: "D", noBuildAM: "E", noBuildPM: "D", buildAM: "E", buildPM: "D", note: "WB right LOS F both peaks today", plain: "The right turn off the service road already fails, morning and evening." },
+  { intersection: "NYS 454 & Express Dr South", delay: { existingAM: 30.4, buildAM: 31.7, existingPM: 51.4, buildPM: 59.2 }, existingAM: "C", existingPM: "D", noBuildAM: "C", noBuildPM: "D", buildAM: "C", buildPM: "E", note: "Degrades to overall LOS E in PM with project", plain: "Drops a full grade in the evening rush." },
+  { intersection: "NYS 454 & Church St (new gateway)", delay: { existingAM: null, buildAM: 16.6, existingPM: null, buildPM: 18.3 }, existingAM: "–", existingPM: "–", noBuildAM: "–", noBuildPM: "–", buildAM: "B", buildPM: "B", note: "Project's own entrance: NB left/through operates at LOS F in the AM peak", plain: "The warehouse's own front door. Its left turn out fails in the morning rush." }
 ];
 SPS.losSource = "Stonefield TIS, HCM 2000 / Synchro 12; 2025 Existing, 2030 No-Build, 2030 Build";
 

@@ -1,0 +1,4 @@
+# local-only dev tooling — never deploy
+dev-edit.js
+dev-mobile-check.html
+dev-mobile-shot.html

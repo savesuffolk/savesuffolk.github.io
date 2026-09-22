@@ -48,13 +48,13 @@
     const cs = (SPS.corridors || []).filter(c => c.hamlets.includes(name));
     const avg = (SPS.trips && SPS.trips.avg.total) || 10815, peak = (SPS.trips && SPS.trips.peak.total) || 14373;
     const tAvg = (SPS.trips && SPS.trips.avg.trucks) || 555, tPeak = (SPS.trips && SPS.trips.peak.trucks) || 809;
-    if (!cs.length) return `<div class="card"><h3>${ic('truck')} How the traffic reaches you</h3><p class="small">${esc(name)} is not named in the traffic study's trip‑distribution table, but the study assumes drivers from across Suffolk. The corridors it does name: Nicolls Road, Sunrise Highway (both directions), Veterans Memorial Highway and the LIE service roads.</p><div class="src">${esc(SPS.corridorsSource || '')}</div></div>`;
+    if (!cs.length) return `<div class="card"><h3>${ic('truck')} How the traffic reaches you</h3><p class="small">${esc(name)} is not named in the trip‑distribution table of the <a href="docs/Traffic-Impact-Study-2026-06-30.pdf" target="_blank">applicant's traffic study</a>, but that study assumes drivers from across Suffolk. The corridors it does name: Nicolls Road, Sunrise Highway (both directions), Veterans Memorial Highway and the LIE service roads.</p><div class="src">${SPS.srcHtml ? SPS.srcHtml(SPS.corridorsSource || '') : esc(SPS.corridorsSource || '')}</div></div>`;
     return cs.map(c => {
       const share = c.share / 100;
       return `<div class="card">${SPS.photoHtml ? SPS.photoHtml(c.photo, c.corridor) : ''}<h3>${ic('truck')} How the traffic reaches you</h3>
-        <p><strong>${esc(c.corridor)}</strong> carries <strong>${c.share}%</strong> of the project's trips per the applicant's own study — about <strong>${Math.round(avg * share).toLocaleString()}</strong> vehicle trips on an average weekday and <strong>${Math.round(peak * share).toLocaleString()}</strong> on a peak day, and the study names ${esc(name)} among the communities they come from.</p>
+        <p><strong>${esc(c.corridor)}</strong> carries <strong>${c.share}%</strong> of the project's trips per the applicant's own <a href="docs/Traffic-Impact-Study-2026-06-30.pdf" target="_blank">traffic study</a> — about <strong>${Math.round(avg * share).toLocaleString()}</strong> vehicle trips on an average weekday and <strong>${Math.round(peak * share).toLocaleString()}</strong> on a peak day, and the study names ${esc(name)} among the communities they come from.</p>
         ${c.trucks ? `<p><strong>All ${tAvg.toLocaleString()}–${tPeak.toLocaleString()} daily truck trips</strong> are routed via Nicolls Road and NYS Route 454 to the site's gateway driveway, so tractor‑trailers share this corridor too.</p>` : '<p class="small">Trucks are routed via Nicolls Road and Route 454 rather than this corridor, but employee and Amazon Flex delivery traffic uses it around the clock.</p>'}
-        <div class="src">${esc(SPS.corridorsSource || '')}</div></div>`;
+        <div class="src">${SPS.srcHtml ? SPS.srcHtml(SPS.corridorsSource || '') : esc(SPS.corridorsSource || '')}</div></div>`;
     }).join('');
   }
 

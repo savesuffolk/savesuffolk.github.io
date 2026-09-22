@@ -79,3 +79,36 @@ Hamlet → county legislative / Assembly / Senate district, derived by sampling 
 ## 3D visualization (`project.html`)
 
 `js/site3d.js` — one continuous sequence: house → football field → Costco → SunVet → JFK8 → Smith Haven → Roosevelt Field (boxes to scale in feet, footprint and height), then the 138‑acre wooded site (~14,000 instanced trees), then clearing west → east across the 101.6 disturbed acres while the buildings rise to their filed heights, ending low beside the south building with a 24‑ft house and a 13.5‑ft trailer for vertical scale. Counters use the EAF acreages; tree total assumes 350 stems/acre. Needs Three.js r128 (cdnjs) and WebGL; without WebGL, on save‑data / low‑memory devices, or if the first two seconds run under 20 fps, it swaps to a slideshow of pre‑rendered frames in `assets/frames/` (re‑render with `render-frames.html` + the headless Chrome loop in the scratchpad if the scene changes). Also embedded on the home page. Test links: `project.html?step=9` (end), `?step=8&clear=0.5`. Edit `COMPARE` and `BUILDINGS` at the top of the file.
+
+## Editing text in the browser (local only)
+
+Run the dev server and open any page:
+
+```
+node dev-server.js          # http://localhost:8765
+```
+
+A dark **Edit text** pill sits in the bottom-left corner. Click it (or press Cmd/Ctrl+Shift+E) and every
+block of text that comes from `data/*.js` gets a dashed outline. Click one, type, click away. The change is
+written straight into the data file, with the previous version kept alongside it as `<file>.js.bak`, and the
+page reloads so you see the real result.
+
+* A short, plain sentence edits in place.
+* A long one, or one containing markup, or a number with a separate display string, opens a small panel so
+  you edit the whole record (value, display, unit, label, source, url) instead of just the rendered text.
+* Amber dotted outline means that exact sentence appears at more than one place in the data. The editor will
+  not guess which one you meant; use `/admin` and pick.
+* Text with no outline is not in a data file. It is either written into the page HTML or built inside a JS
+  module, usually because it has numbers interpolated into it.
+
+The editor is **injected by the dev server**, not written into any page. Nothing on disk references it, so it
+cannot reach the published site. It also refuses to run on any host other than localhost.
+
+Two endpoints back it, both local-only:
+
+| Route | What it does |
+|---|---|
+| `POST /api/text/<file>` | Swaps one string literal in place. One-line diff, formatting and comments untouched. |
+| `POST /api/data/<file>` | Rewrites a whole `SPS.<key>`. Used for numbers and multi-field edits; reflows that key to JSON. |
+
+Both syntax-check the result before writing and refuse the write if the value does not land where expected.

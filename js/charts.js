@@ -9,7 +9,11 @@
     Chart.defaults.color = css('--fg') || '#222';
     Chart.defaults.borderColor = css('--border') || '#ddd';
     Chart.defaults.font.family = css('--font') || 'sans-serif';
-    Chart.defaults.plugins.legend.labels.boxWidth = 12;
+    Chart.defaults.plugins.legend.labels.boxWidth = 14;
+    Chart.defaults.font.size = 15;
+    Chart.defaults.plugins.tooltip.bodyFont = { size: 15 };
+    Chart.defaults.plugins.tooltip.titleFont = { size: 15, weight: '700' };
+    Chart.defaults.plugins.tooltip.padding = 10;
   }
 
   function scaleChart() {

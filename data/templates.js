@@ -16,6 +16,7 @@ SPS.templates = {
 "Dear {{official}},\n\n" +
 "My name is {{name}} and I live at {{street}} in {{town}}. I am writing to ask you to vote NO on change-of-zone application CZ 2026-010 — the proposed Amazon fulfillment complex at the northeast corner of Sunrise Highway and Veterans Memorial Highway — and NO on any new Planned Development District created to accommodate it.\n\n" +
 "{{impact}}" +
+"{{concerns}}" +
 "The applicant's own filing shows this project does not fit this location:\n" +
 "• 4,264,725 sq ft of floor area (4,430,709 with the garage) on 138.05 acres — a floor-area ratio of 0.713, double the 0.35 maximum in the Industrial 1 district. The applicant's own zoning chart marks this \"Complies: N.\"\n" +
 "• 1,500 parking stalls provided where the Town code requires 6,859 — also marked \"Complies: N.\"\n" +

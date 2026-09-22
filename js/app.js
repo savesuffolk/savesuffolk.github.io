@@ -26,8 +26,8 @@
     const foot = $('#site-footer');
     if (foot) {
       foot.innerHTML = `<footer class="footer"><div class="wrap">
-        <p><strong>Stop Project Sunrise</strong> is a volunteer effort by residents of Holbrook, Bohemia, Sayville, Bayport and neighboring Suffolk County communities. Not affiliated with the Town of Islip, Suffolk County, or Amazon. Every fact is cited to a source document; if you find an error, tell us and we will fix it.</p>
-        <p><a href="https://www.facebook.com/STOPISLIPOVERBUILDING" target="_blank" rel="noopener">Facebook page</a><a href="https://www.facebook.com/search/groups/?q=Holbrook%20Residents%20Opposing%20the%20Mega%20Warehouse" target="_blank" rel="noopener">Facebook group</a><a href="https://www.change.org/p/stop-amazon-from-building-a-mega-warehouse-in-holbrook-ny" target="_blank" rel="noopener">Petition</a><a href="docs.html">Documents</a><a href="act.html">Take action</a></p>
+        <p><strong>Stop Project Sunrise</strong> is a volunteer effort by residents of Holbrook, Bohemia, Sayville, Bayport and neighboring Suffolk County communities. Not affiliated with the Town of Islip, Suffolk County, or Amazon. Every fact is cited to a source document, and <a href="docs.html#sources">every source is listed in one place</a> so you can check it yourself. If you find an error, tell us and we will fix it.</p>
+        <p><a href="https://www.facebook.com/STOPISLIPOVERBUILDING" target="_blank" rel="noopener">Facebook page</a><a href="https://www.facebook.com/search/groups/?q=Holbrook%20Residents%20Opposing%20the%20Mega%20Warehouse" target="_blank" rel="noopener">Facebook group</a><a href="https://www.change.org/p/stop-amazon-from-building-a-mega-warehouse-in-holbrook-ny" target="_blank" rel="noopener">Petition</a><a href="docs.html">Documents</a><a href="docs.html#sources">Every source</a><a href="act.html">Take action</a></p>
         <p class="small">Last updated <span id="updated"></span>. Officials' contact details are public information from their offices and the campaign's contact directory; entries marked "verify" were not in the source documents and should be confirmed.</p>
       </div></footer>
       <div class="modal" id="modal"><div class="box"><button class="close" id="modal-close" aria-label="Close">×</button><div id="modal-body"></div></div></div>
@@ -58,7 +58,7 @@
 
   /* ---------- fact tiles ---------- */
   function tile(f) {
-    return `<div class="fact${f.warn ? ' warn' : ''}"><span class="fi">${ic(SPS.factIcon ? SPS.factIcon(f.id || '') : 'warehouse')}</span><div class="v">${esc(f.display)}</div><div class="l">${esc(f.label)}${f.unit ? ' <span class="muted">(' + esc(f.unit) + ')</span>' : ''}</div><div class="s">${esc(f.source)}</div></div>`;
+    return `<div class="fact${f.warn ? ' warn' : ''}"><span class="fi">${ic(SPS.factIcon ? SPS.factIcon(f.id || '') : 'warehouse')}</span><div class="v">${esc(f.display)}</div><div class="l">${esc(f.label)}${f.unit ? ' <span class="muted">(' + esc(f.unit) + ')</span>' : ''}</div><div class="s">${SPS.srcHtml ? SPS.srcHtml(f.source) : esc(f.source)}</div></div>`;
   }
   function renderFacts() {
     const host = $('#fact-tiles'); if (!host || !SPS.facts) return;
@@ -89,7 +89,7 @@
         <p><strong>${ic('alert')} Why it matters:</strong> ${esc(i.why)}</p>
         <p style="background:var(--green-light);padding:8px 10px;border-radius:6px"><strong>${ic('mic')} Ask at the hearing:</strong> ${esc(i.question)}</p>
         ${i.link ? `<p><a href="${esc(i.link).replace('#water', 'water.html')}">${esc(i.linkText || 'See the numbers →')}</a></p>` : ''}
-        <div class="src">Source: ${(i.sources || []).map(esc).join('; ')}</div></div>`).join('');
+        <div class="src">Source: ${(i.sources || []).map(x => SPS.srcHtml ? SPS.srcHtml(x, { chip: false }) : esc(x)).join('; ')}</div></div>`).join('');
   }
 
   /* ---------- issue slideshow (issues page) ---------- */
@@ -107,7 +107,7 @@
           <div class="slide-row"><div class="lab">${ic('alert')} Why it matters</div><p>${esc(i.why)}</p></div>
           <div class="slide-row ask"><div class="lab">${ic('mic')} Ask at the hearing</div><p>${esc(i.question)}</p></div>
           ${i.link ? `<p class="slide-link"><a href="${esc(i.link).replace('#water', 'water.html')}">${esc(i.linkText || 'See the numbers ›')}</a></p>` : ''}
-          <div class="src">Source: ${(i.sources || []).map(esc).join('; ')}</div>
+          <div class="src">Source: ${(i.sources || []).map(x => SPS.srcHtml ? SPS.srcHtml(x, { chip: false }) : esc(x)).join('; ')}</div>
         </div></article>`;
     };
     const tabsHtml = `<div class="slide-tabs story-tabs" role="tablist">${list.map((i, idx) => `<button role="tab" data-go="${idx}" class="story${idx === 0 ? ' on' : ''}" style="--c:${esc(i.color || 'var(--green)')}" aria-label="${esc(i.title)}"><span class="ring">${ic(SPS.iconFor.issue[i.id] || 'alert')}</span><span class="lbl">${esc(i.short || i.title)}</span></button>`).join('')}</div>`;

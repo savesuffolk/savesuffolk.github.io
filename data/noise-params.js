@@ -122,7 +122,7 @@ SPS.noise = {
     facts: [
       { text: "The applicant's lighting plan is marked \"being prepared\" and has not been submitted.", source: "Full EAF Part 1", status: "verified" },
       { text: "The Illuminating Engineering Society / DarkSky Model Lighting Ordinance limits light trespass at a residential property line to 0.1 footcandle (LZ1) or 0.3 fc (LZ2).", source: "IES/IDA Model Lighting Ordinance, Table B", status: "verified", url: "https://www.mrcog-nm.gov/DocumentCenter/View/3067/Example-Dark-Skies-Lighting-Ordinance-PDF" },
-      { text: "Holbrook's 2021 Amazon delivery station drew objections to 3,600 proposed lights; Ogden NY's Amazon had to retrofit shields after opening.", source: "Patch (Dec 2020); News10NBC", status: "verified" }
+      { text: "Holbrook's 2021 Amazon delivery station drew objections to 3,600 proposed lights; Ogden NY's Amazon had to retrofit shields after opening.", source: "Patch (Dec 2020); News10NBC", url: "https://patch.com/new-york/sachem/amazon-center-proposal-draws-local-opposition-holbrook", status: "verified" }
     ],
     asks: ["Full-cutoff (U0) fixtures, 3000 K or warmer, everywhere on the site", "Photometric plan showing 0.1 fc or less at the north property line", "Post-midnight curfew dimming on yard and parking lighting", "The 240-ft buffer kept as a dark zone with no fixtures"]
   },

@@ -400,14 +400,14 @@
   }
   function renderSources() {
     var host = $("#noise-sources"); if (!host || !SPS.noise) return;
-    host.innerHTML = '<table class="tbl"><thead><tr><th>Source</th><th>Level</th><th>Measured at</th><th>Source document</th></tr></thead><tbody>' +
-      SPS.noise.sources.map(function (s) { return "<tr><td>" + esc(s.label) + (s.note ? '<div class="small muted">' + esc(s.note) + "</div>" : "") + "</td><td><strong>" + esc(s.level) + " dBA</strong> <span class=\"muted small\">" + esc(s.metric) + "</span></td><td>" + esc(s.ref) + " ft</td><td class=\"small\">" + (s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.source) + "</a>" : esc(s.source)) + " " + badge(s.status) + "</td></tr>"; }).join("") + "</tbody></table>";
+    host.innerHTML = '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Source</th><th>Level</th><th>Measured at</th><th>Source document</th></tr></thead><tbody>' +
+      SPS.noise.sources.map(function (s) { return "<tr><td>" + esc(s.label) + (s.note ? '<div class="small muted">' + esc(s.note) + "</div>" : "") + "</td><td><strong>" + esc(s.level) + " dBA</strong> <span class=\"muted small\">" + esc(s.metric) + "</span></td><td>" + esc(s.ref) + " ft</td><td class=\"small\">" + (SPS.srcHtml ? SPS.srcHtml(s.source, { url: s.url }) : esc(s.source)) + " " + badge(s.status) + "</td></tr>"; }).join("") + "</tbody></table></div>";
   }
   function renderAssumptions() {
     var host = $("#noise-assumptions"); if (!host || !SPS.noise) return;
     var m = SPS.noise.model;
     host.innerHTML = "<ul class=\"small\">" + Object.keys(m).map(function (k) { var p = m[k]; return "<li>" + esc(p.label) + (p.value != null ? ": <strong>" + esc(p.value) + "</strong>" : "") + " " + badge(p.status) + (p.note ? ' <span class="muted">— ' + esc(p.note) + "</span>" : "") + "</li>"; }).join("") +
-      "<li>Site outline and building envelope " + badge("estimate") + ' <span class="muted">— ' + esc(SPS.noise.site.source) + "</span></li></ul>";
+      "<li>Site outline and building envelope " + badge("estimate") + ' <span class="muted">— ' + (SPS.srcHtml ? SPS.srcHtml(SPS.noise.site.source, { chip: false }) : esc(SPS.noise.site.source)) + "</span></li></ul>";
   }
   function rowsHtml(items) { return '<div class="rows">' + items.map(function (r) { return '<div class="row"><div class="who">' + r[0] + '</div><div class="what">' + r[1] + '</div><div class="src small">' + r[2] + "</div></div>"; }).join("") + "</div>"; }
   function renderRules() {
@@ -430,6 +430,7 @@
   }
   function renderAsks() {
     var host = $("#noise-asks"); if (!host || !SPS.noise) return;
+    if (SPS.asksBlock) { host.innerHTML = '<div data-asks="sleep" data-limit="' + (+host.dataset.limit || 4) + '"></div>'; return; }
     var asks = SPS.noise.asks; var lim = +host.dataset.limit; if (lim) asks = asks.slice(0, lim);
     host.innerHTML = "<ol>" + asks.map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("") + "</ol>";
   }

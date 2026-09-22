@@ -14,21 +14,23 @@ SPS.impacts = [
       { text: "Holbrook Fire Department, all volunteer, answered 624 fire and 2,889 EMS calls in 2025 — 3,513 responses. Whether it has an aerial ladder able to reach a three-story, 60-foot building is not stated.", source: "Holbrook Fire Department", url: "https://www.holbrookfd.org/", status: "verified" },
       { text: "In 2020 a 600,000 sq ft warehouse in Amazon's supply chain in Redlands, CA — sprinklered and code-compliant — burned to the ground; the roof began collapsing in 20 minutes and city water mains fell to 40 psi. Loss over $200 million. Project Sunrise is seven times that size.", source: "Fire Engineering, lessons learned from the Redlands ESFR fire", url: "https://www.fireengineering.com/fire-safety/lessons-learned-from-a-large-loss-fire-involving-an-esfr-sprinkler-system/", status: "verified" },
       { text: "The New York fire code's largest bracket for high-piled storage is \"over 500,000 sq ft.\" This building is eight of those.", source: "2020 Fire Code of New York State, Table 3206.2", url: "https://up.codes/viewer/new_york/ny-fire-code-2020/chapter/32/high-piled-combustible-storage", status: "verified" }
-    ],
-    asks: ["A fire-flow analysis and hydrant flow tests from the Suffolk County Water Authority for this site.", "Written review by the Holbrook Fire District and Suffolk FRES of apparatus access, aerial reach and EV-charging fire protection.", "An emergency-services impact analysis: projected ambulance and fire calls, and who pays for them."] },
+    ] },
 
   { id: "roads", card: true, icon: "truck", sev: "hot", short: "Road bill", title: "Your road, their trucks",
-    big: "1 truck = 9,600 cars", sub: "of pavement wear, on a county road you pay for",
-    line: "A loaded tractor-trailer does the road damage of at least 9,600 cars. Nicolls Road is a Suffolk County road: when 555 to 809 trucks a day chew it up, county property tax repaves it.",
+    big: "Half the asphalt", sub: "of an interstate, on the county road the trucks are routed down",
+    line: "Federal modelling in 2015 found the damage lands on the thin roads: a county-grade arterial is built with about 6 inches of asphalt where an interstate gets 12. Nicolls Road is a Suffolk County road, and county property tax repaves it.",
     facts: [
-      { text: "A five-axle tractor-trailer at the 80,000-pound federal limit has the same pavement impact as at least 9,600 automobiles; one 20,000-pound truck axle equals 7,550 passes of a car axle.", source: "U.S. General Accounting Office, CED-79-94 (1979)", url: "https://www.gao.gov/assets/ced-79-94.pdf", status: "verified" },
+      { text: "A mile driven by a combination truck was estimated to cost 8.4 cents in federal highway costs, against 0.8 cents for a passenger vehicle, and up to 20.3 cents for the heaviest loads.", source: "Congressional Budget Office, Reauthorizing Federal Highway Programs (2020)", url: "https://www.cbo.gov/publication/56373", status: "verified" },
+      { text: "Taking overweight axles out of the traffic mix made asphalt pavements last 19 to 34 percent longer in the federal government's own modelling.", source: "USDOT/FHWA, Comprehensive Truck Size and Weight Limits Study, Pavement Comparative Analysis (2015), p. ES-7", url: "https://ops.fhwa.dot.gov/freight/sw/map21tswstudy/technical_rpts/pcanalysis.pdf", status: "verified" },
+      { text: "Cars pay back all of the road costs they cause. The heaviest combination trucks pay about half, and the rest falls on everyone else.", source: "USDOT/FHWA, Addendum to the 1997 Federal Highway Cost Allocation Study (2000), Table 7", url: "https://www.fhwa.dot.gov/policy/hcas/addendum.cfm", status: "verified" },
+      { text: "Heavy vehicles a local road was never designed for \"cause additional damage and thus create the need for rehabilitation or reconstruction sooner than expected\"; the report names new industrial facilities as a cause.", source: "MnDOT / Local Road Research Board, Assessing the Effects of Heavy Vehicles on Local Roadways, MN/RC 2014-32 (2014)", url: "https://mdl.mndot.gov/_flysystem/fedora/2023-01/201432.pdf", status: "verified" },
+      
       { text: "The heaviest combination trucks pay about half of their share of highway costs; the most common ones pay 80%. The difference is made up by everyone else.", source: "FHWA, Addendum to the 1997 Federal Highway Cost Allocation Study (2000)", url: "https://www.fhwa.dot.gov/policy/hcas/addendum.cfm", status: "verified" },
       { text: "Nicolls Road is Suffolk County Route 97, 14.29 miles maintained by the county Department of Public Works. Route 454 and Sunrise Highway are State roads.", source: "Suffolk County DPW county road list", url: "https://www.suffolkcountyny.gov/Portals/0/formsdocs/publicworks/PDF/Suffolk%20County%20Roads%20List.pdf", status: "verified" },
       { text: "A State highway work permit can require a bond and maintenance of the driveway and turn lanes the developer builds. Nothing found requires a contribution for wear on the other 14 miles.", source: "NY Highway Law §52; NYSDOT PERM 33-COM", url: "https://www.nysenate.gov/legislation/laws/HAY/52", status: "verified" },
       { text: "The traffic study's road fixes — a realigned Beacon Drive, new signals, a fourth westbound lane — are all \"subject to approval,\" with no funding commitment in the file.", source: "Stonefield Traffic Impact Study, June 30 2026", url: "docs/Traffic-Impact-Study-2026-06-30.pdf", status: "verified" },
       { text: "New York's five-minute idling limit for heavy trucks exempts loading, unloading and cargo refrigeration — the loading-dock loophole.", source: "6 NYCRR 217-3.2 and 217-3.3", url: "https://www.law.cornell.edu/regulations/new-york/6-NYCRR-217-3.3", status: "verified" }
-    ],
-    asks: ["Suffolk DPW: pavement condition, last resurfacing cost and cost per lane-mile for Nicolls Road between Sunrise Highway and the Expressway.", "A binding condition that every off-site road improvement is built and paid for by the applicant before a certificate of occupancy.", "An idling condition stricter than the State's, with the loading-dock exemption closed."] },
+    ] },
 
   { id: "power", card: true, icon: "bolt", sev: "warm", short: "Power", title: "The electric draw of 15,000 homes",
     big: "12.1 megawatts", sub: "on a grid its own operator calls short by 2027",
@@ -40,8 +42,7 @@ SPS.impacts = [
       { text: "Against the whole island's 5,000 MW peak this is a quarter of one percent; against the Holbrook–Ronkonkoma feeders and substation it is a new industrial customer the size of a small town.", source: "NYISO 2025 Gold Book, Table I-4a (Zone K); our framing", url: "https://www.nyiso.com/documents/20142/2226333/2025-Gold-Book-Public.pdf", status: "verified" },
       { text: "Under LIPA's tariff a commercial customer pays only for facilities beyond the utility's allowance; service at 23,000 volts or above needs an interconnection agreement. Whether ratepayers pick up any of a substation upgrade is not disclosed.", source: "LIPA Tariff for Electric Service, Sept 2026, §II.D", url: "https://www.lipower.org/wp-content/uploads/2026/09/LIPA-Tariff-September-2026-linked.pdf", status: "verified" },
       { text: "An on-site generator is listed as a stationary emission source; its fuel, size and run hours are not given, and the air-permit questions are blank.", source: "Full EAF Part 1 §D.2.f–g", url: "docs/Full-EAF-2026-07-15.pdf", status: "verified" }
-    ],
-    asks: ["PSEG Long Island's will-serve letter or system-impact study for 12.1 MW, naming the substation and feeders.", "The cost of any substation or feeder upgrade and the share recovered from the applicant versus the rate base.", "Generator fuel type, capacity and expected run hours."] },
+    ] },
 
   { id: "schools", card: true, icon: "users", sev: "warm", short: "Schools", title: "School money in the tax break",
     big: "$717 million", sub: "of school taxes waived by NY IDAs last year",
@@ -52,8 +53,7 @@ SPS.impacts = [
       { text: "Sachem Central School District's 2026–27 budget draws 56.83% ($216.5 million) from the property-tax levy; payments in lieu of taxes sit inside a 2.84% \"other\" line. Enrollment 11,749.", source: "Sachem CSD 2026–27 Budget Overview", url: "https://files.smartsites.parentsquare.com/9431/2026-27_budget_overview.pdf", status: "verified" },
       { text: "The filing lists the Islip IDA for \"potential financial assistance\" but states no jobs figure, no payroll and no fiscal analysis.", source: "Full EAF Part 1; every FOIL'd document searched", url: "docs/Full-EAF-2026-07-15.pdf", status: "verified" },
       { text: "The Senate report describes Amazon staffing policies designed \"to create attrition when peak periods conclude\" — seasonal churn, not careers.", source: "U.S. Senate HELP Committee report, 2024", url: "https://www.help.senate.gov/imo/media/doc/amazon_investigation.pdf", status: "verified" }
-    ],
-    asks: ["Islip IDA: the application, uniform tax exemption policy, and the proposed PILOT schedule by year and by taxing body (Sachem, county, town, fire district, library).", "The IDA's cost-benefit analysis and job commitments with clawback terms.", "Confirmation the parcel lies in the Sachem district for tax purposes."] },
+    ] },
 
   { id: "drones", card: false, icon: "wind", sev: "warm", short: "Drones", title: "Drones come with same-day sites",
     big: "500 towns", sub: "Amazon's drone rollout this year",
@@ -62,8 +62,7 @@ SPS.impacts = [
       { text: "\"Our new MK30 drones will deploy from facilities next to our Same-Day Delivery site… These smaller sites are hybrid — part fulfillment center, part delivery station.\"", source: "Amazon, drone delivery launch in Tolleson, AZ", url: "https://www.aboutamazon.com/news/transportation/amazon-drone-delivery-arizona", status: "verified" },
       { text: "The traffic study labels the north building \"425,000 SF SSD + Injection\" — a same-day delivery station — with 4,888 Flex delivery-car trips a day.", source: "Stonefield TIS Table 1 and A5", url: "docs/Traffic-Impact-Study-2026-06-30.pdf", status: "verified" },
       { text: "Drone noise complaints have been reported near other launch sites; a decibel figure is not verified and is not published here.", source: "—", url: "", status: "unverified" }
-    ],
-    asks: ["Whether drone operations are contemplated for the same-day area, and any FAA Part 135 filings for this site."] },
+    ] },
 
   { id: "heat", card: false, icon: "sun", sev: "ok", short: "Heat", title: "84 acres of roof and asphalt",
     big: "2–5°F warmer nights", sub: "typical heat-island effect",
@@ -71,6 +70,5 @@ SPS.impacts = [
     facts: [
       { text: "Daytime temperatures in urban areas are about 1–7°F higher than outlying areas and nighttime 2–5°F; roof surfaces can be up to 66°F hotter than the air.", source: "U.S. EPA, Learn About Heat Islands", url: "https://www.epa.gov/heatislands/learn-about-heat-islands", status: "verified" },
       { text: "A 100-year storm here is 6.2 inches in 24 hours — about 14 million gallons on 84 acres, all sent into the ground above the aquifer. The system is designed for 8 inches, so off-site flooding is unlikely on paper; the issue stays the water.", source: "NOAA Atlas 14 for the site; Full EAF attachment", url: "https://hdsc.nws.noaa.gov/pfds/", status: "verified" }
-    ],
-    asks: ["The photometric and thermal assumptions behind the \"high-reflectance\" claims, in numbers."] }
+    ] }
 ];

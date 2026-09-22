@@ -55,7 +55,7 @@
     if (r.ft != null) parts.push("I live about " + (r.ft > 5280 ? fmt(r.ft / 5280, 1) + " miles" : fmt(Math.round(r.ft / 10) * 10) + " feet") + " from the site" + (r.hamlet ? " in " + r.hamlet.hamlet : "") + ".");
     if (r.night && r.night.wake) parts.push("Using published sound levels and WHO sleep thresholds, that is " + fmt(r.night.wake) + " dock events a night loud enough to wake me in my bedroom.");
     else if (r.night && r.night.eeg) parts.push("Using published sound levels and WHO sleep thresholds, " + fmt(r.night.eeg) + " dock events a night would be loud enough in my bedroom to fragment my sleep.");
-    if (r.value && r.value.hi) parts.push("Published studies put " + money(r.value.lo) + " to " + money(r.value.hi) + " off the value of a typical home at my distance.");
+    if (r.value && r.value.hi) parts.push("Applying the published percentages from the peer-reviewed studies cited on savesuffolk.org (de Vor & de Groot 2011; Robert et al., SSRN 2024) to a typical home at my distance gives " + money(r.value.lo) + " to " + money(r.value.hi) + " off its value.");
     if (r.corridors && r.corridors.length) parts.push("The applicant's traffic study routes " + r.corridors[0].share + "% of the project's trips through my hamlet on " + r.corridors[0].corridor.split(" — ")[0] + ".");
     return parts.join(" ");
   }
@@ -63,10 +63,27 @@
   /* ---------- render ---------- */
   var TOPIC = { "noise.html": "sleep", "values.html": "home", "values.html#tax": "home", "issues.html#traffic": "roads", "water.html": "water", "act.html#officials": "say" };
   var SEV = { hot: "Serious", warm: "Likely", ok: "Not much", neutral: "" };
-  function card(icon, big, sub, body, link, linkText, cls) {
+  // Where a number comes from, said plainly on the card itself.
+  var PROV = {
+    filing: { k: "filing", t: "From the applicant's own filing", h: 'From the applicant\'s own <a href="docs/Full-EAF-2026-07-15.pdf" target="_blank">filing</a>' },
+    tis: { k: "filing", t: "From the applicant's traffic study", h: 'From the applicant\'s own <a href="docs/Traffic-Impact-Study-2026-06-30.pdf" target="_blank">traffic study</a>' },
+    research: { k: "research", t: "From published studies", h: 'Published percentages applied to your distance — <a href="values.html#research">the nine studies</a>' },
+    ourmath: { k: "ourmath", t: "Our arithmetic", h: "Our own arithmetic from the filing's numbers. Not an expert report — check the math" },
+    calendar: { k: "record", t: "From the public hearing calendar", h: "From the Town's published hearing calendar" }
+  };
+  function provHtml(kind, topic) {
+    var pv = PROV[kind]; if (!pv) return "";
+    return '<div class="hprov"><span class="prov ' + pv.k + '">' + esc(pv.t) + "</span> <span class=\"small muted\">" + pv.h + "</span></div>";
+  }
+  function impactProv(x) {
+    var f = (x.facts || []).filter(function (q) { return q.url; });
+    if (!f.length) return "";
+    return '<div class="hprov"><span class="prov record">' + f.length + ' linked source' + (f.length === 1 ? "" : "s") + '</span> <span class="small muted">Every fact on this card links to its document</span></div>';
+  }
+  function card(icon, big, sub, body, link, linkText, cls, prov) {
     var topic = TOPIC[link] || "", sev = cls || "neutral";
     if (current) current.sev[topic] = sev;
-    return '<div class="card hcard ' + sev + '" data-topic="' + topic + '" role="button" tabindex="0"><div class="hhead"><span class="ring">' + ic(icon) + '</span>' + (SEV[sev] ? '<span class="sev">' + SEV[sev] + "</span>" : "") + '</div><div class="big">' + big + '</div><div class="sub">' + sub + '</div><p class="small">' + body + '</p>' + (link ? '<a class="why" href="#' + topic + '" data-open="' + topic + '">' + esc(linkText || "Why ›") + "</a>" : "") + "</div>";
+    return '<div class="card hcard ' + sev + '" data-topic="' + topic + '" role="button" tabindex="0"><div class="hhead"><span class="ring">' + ic(icon) + '</span>' + (SEV[sev] ? '<span class="sev">' + SEV[sev] + "</span>" : "") + '</div><div class="big">' + big + '</div><div class="sub">' + sub + '</div><p class="small">' + body + '</p>' + (prov ? provHtml(prov, topic) : "") + (link ? '<a class="why" href="#' + topic + '" data-open="' + topic + '">' + esc(linkText || "Why ›") + "</a>" : "") + "</div>";
   }
   var current = null; // last computed report, used to preset the drawer panels
   var TABS = [["overview", "list", "Overview"], ["home", "home", "Home value"], ["water", "droplet", "Water"], ["roads", "truck", "Roads"], ["sleep", "moon", "Sleep"], ["more", "alert", "More"], ["say", "gavel", "Who decides"]];
@@ -107,15 +124,15 @@
     var r = current; if (!r) return;
     if (topic === "sleep") { if (SPS.noiseUI && SPS.noiseUI.setDistance && r.dockFt != null) SPS.noiseUI.setDistance(r.dockFt, r.addr); if (SPS.voicesUI) SPS.voicesUI.setTopic("night"); }
     if (topic === "home") { if (SPS.valuesUI && SPS.valuesUI.setDistance && r.ft != null) SPS.valuesUI.setDistance(r.ft, r.addr); }
-    if (topic === "roads") { var h = $("#house-corridor"); if (h) h.innerHTML = '<h3 class="panel-h">' + ic("pin") + ' Your road</h3>' + (r.hamlet && SPS.locate ? SPS.locate.corridorBlock(r.hamlet) : '<p class="muted">Pick your hamlet to see which corridor carries the project past you.</p>'); if (SPS.renderIcons) SPS.renderIcons(h); if (SPS.roadsUI) SPS.roadsUI.refresh(); }
+    if (topic === "roads") { if (SPS.roadsUI) { if (SPS.roadsUI.setHamlet) SPS.roadsUI.setHamlet(r.hamlet ? r.hamlet.hamlet : ""); SPS.roadsUI.refresh(); } }
     if (topic === "water") { var w = $("#house-water-note"); if (w) w.innerHTML = r.hamlet && SPS.locate ? SPS.locate.waterBlock(r.hamlet) : ""; if (SPS.renderIcons) SPS.renderIcons(w); if (SPS.waterMap) { if (r.lat && r.lon) SPS.waterMap.setAddress([r.lat, r.lon]); SPS.waterMap.refresh(); } }
     if (topic === "home") { var t = $("#house-taxes"); if (t && SPS.values) { t.innerHTML = (r.value && r.value.hi ? '<p class="tax-line"><strong>Your taxes go up either way.</strong> School and town budgets are fixed amounts spread across everyone\'s assessed value. When the homes nearest the site win lower assessments — ' + money(r.value.lo) + " to " + money(r.value.hi) + ' off yours is roughly ' + money(r.value.lo * 0.0668) + " to " + money(r.value.hi * 0.0668) + ' off the assessed value on a grievance form — the same dollars land on everyone else in Sachem and Connetquot.</p>' : '<p class="tax-line"><strong>Your taxes go up either way.</strong> School and town budgets are fixed amounts spread across everyone\'s assessed value. When the homes nearest the site win lower assessments, the same dollars land on everyone else in Sachem and Connetquot, a mile away and more.</p>'); } }
     if (topic === "more") {
       var mh = $("#more-rows"); if (mh && SPS.impacts) {
         mh.innerHTML = SPS.impacts.map(function (x) {
           return '<section class="more-sec ' + x.sev + '" id="more-' + esc(x.id) + '"><div class="more-head"><span class="ring">' + ic(x.icon) + '</span><div><div class="kick">' + (SEV[x.sev] ? '<span class="sev">' + SEV[x.sev] + "</span>" : "") + '</div><h3>' + esc(x.title) + '</h3></div></div><p class="more-line">' + esc(x.line) + '</p><div class="rows">' +
-            x.facts.map(function (f) { return '<div class="row two"><div class="what">' + esc(f.text) + '</div><div class="src small">' + (f.url ? '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(f.source) + "</a>" : esc(f.source)) + " " + (SPS.statusBadge ? SPS.statusBadge(f.status) : "") + "</div></div>"; }).join("") +
-            '</div>' + (x.asks && x.asks.length ? '<div class="asks"><strong>Ask for it in writing:</strong><ul>' + x.asks.map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("") + "</ul></div>" : "") + "</section>";
+            x.facts.map(function (f) { return '<div class="row two"><div class="what">' + esc(f.text) + '</div><div class="src small">' + (SPS.srcHtml ? SPS.srcHtml(f.source, { url: f.url }) : esc(f.source)) + " " + (SPS.statusBadge ? SPS.statusBadge(f.status) : "") + "</div></div>"; }).join("") +
+            '</div>' + (SPS.asks && SPS.asks.topics[x.id] ? '<div data-asks="' + esc(x.id) + '" data-rail="0" style="margin-top:12px"></div>' : "") + "</section>";
         }).join("");
         if (SPS.renderIcons) SPS.renderIcons(mh);
       }
@@ -140,30 +157,30 @@
     // sleep
     if (r.night) {
       var n = r.night, nw = r.nightWall;
-      cards.push(n.wake ? card("moon", fmt(n.wake) + " wake-ups a night", "every night, from the loading docks", "Between 11 PM and 6 AM, " + fmt(n.trucks) + " trucks arrive or leave, each with an air brake and a back-up alarm. With only the trees in the plan, " + fmt(n.wake) + " of those are loud enough in your bedroom to wake you" + (nw.wake < n.wake ? "; a real sound wall would cut that to " + fmt(nw.wake) : "") + ".", "noise.html", "How we count ›", "hot")
-        : n.eeg ? card("moon", fmt(n.eeg) + " times a night", "your sleep gets broken", "Nothing reaches the full wake-up line at your distance, but " + fmt(n.eeg) + " dock events a night are loud enough to break your sleep.", "noise.html", "How we count ›", "warm")
-        : card("moon", "Quiet nights", "the docks are too far to wake you", "No dock event reaches the sleep-disturbance line in your bedroom at this distance.", "noise.html", "How we count ›", "ok"));
-    } else cards.push(card("moon", "Type your address", "to count your nights", "The count depends on feet from the docks.", "noise.html", "The noise page ›", "neutral"));
+      cards.push(n.wake ? card("moon", fmt(n.wake) + " wake-ups a night", "every night, from the loading docks", "Between 11 PM and 6 AM, " + fmt(n.trucks) + " trucks arrive or leave, each with an air brake and a back-up alarm. With only the trees in the plan, " + fmt(n.wake) + " of those are loud enough in your bedroom to wake you" + (nw.wake < n.wake ? "; a real sound wall would cut that to " + fmt(nw.wake) : "") + ".", "noise.html", "How we count ›", "hot", "ourmath")
+        : n.eeg ? card("moon", fmt(n.eeg) + " times a night", "your sleep gets broken", "Nothing reaches the full wake-up line at your distance, but " + fmt(n.eeg) + " dock events a night are loud enough to break your sleep.", "noise.html", "How we count ›", "warm", "ourmath")
+        : card("moon", "Quiet nights", "the docks are too far to wake you", "No dock event reaches the sleep-disturbance line in your bedroom at this distance.", "noise.html", "How we count ›", "ok", "ourmath"));
+    } else cards.push(card("moon", "Type your address", "to count your nights", "The count depends on feet from the docks.", "noise.html", "The noise page ›", "neutral", "ourmath"));
     // home
     if (r.value) {
       var v = r.value;
-      cards.push(v.hi ? card("home", money(v.lo) + " to " + money(v.hi), "gone from your home's value", esc(v.band.why.split(". ")[0].replace(/\.$/, "")) + ". And when the nearest homes win lower assessments, the school and town bill shifts to you.", "values.html", "The studies ›", "hot")
-        : card("home", "Your price holds", "but your taxes don't", esc(v.band.why) + " School and town budgets are fixed; when the nearest homes win lower assessments, the bill shifts to you.", "values.html", "Why ›", "warm"));
-    } else cards.push(card("home", "Type your address", "to see the price effect", "Price effects depend on distance: 15% next door, 6–10% within half a mile.", "values.html", "The studies ›", "neutral"));
+      cards.push(v.hi ? card("home", money(v.lo) + " to " + money(v.hi), "gone from your home's value", esc(v.band.why.split(". ")[0].replace(/\.$/, "")) + ". And when the nearest homes win lower assessments, the school and town bill shifts to you.", "values.html", "See the studies ›", "hot", "research")
+        : card("home", "Your price holds", "but your taxes don't", esc(v.band.why) + " School and town budgets are fixed; when the nearest homes win lower assessments, the bill shifts to you.", "values.html", "Why ›", "warm", "research"));
+    } else cards.push(card("home", "Type your address", "to see the price effect", "Price effects depend on distance: 15% next door, 6–10% within half a mile.", "values.html", "See the studies ›", "neutral", "research"));
     // roads
     if (r.corridors && r.corridors.length) {
       var c = r.corridors[0], total = (SPS.trips && SPS.trips.avg.total) || 10815;
-      cards.push(card("truck", c.share + "% of the traffic", "lands on " + esc(c.corridor.split(" — ")[0].replace(/ \(.*\)/, "")) + " through " + esc(r.hamlet.hamlet), "About " + fmt(total * c.share / 100) + " vehicle trips a day" + (c.trucks ? ", and every one of the 555–809 daily truck trips — each wearing the road like 9,600 cars." : ", by the applicant's own study."), "issues.html#traffic", "The traffic study ›", c.trucks ? "hot" : "warm"));
-    } else cards.push(card("truck", "10,815 trips a day", "on Nicolls Road, Sunrise Highway and Veterans Highway", (r.hamlet ? esc(r.hamlet.hamlet) + " is not named in the study's trip table, but every road into the site already fails at rush hour." : "Pick your hamlet to see which road carries the project's traffic past you."), "issues.html#traffic", "The traffic study ›", "warm"));
+      cards.push(card("truck", c.share + "% of the traffic", "lands on " + esc(c.corridor.split(" — ")[0].replace(/ \(.*\)/, "")) + " through " + esc(r.hamlet.hamlet), "About " + fmt(total * c.share / 100) + " vehicle trips a day" + (c.trucks ? ", and every one of the 555–809 daily truck trips — each costing the public about ten times what a car does per mile." : ", by the applicant's own study."), "issues.html#traffic", "The traffic study ›", c.trucks ? "hot" : "warm", "tis"));
+    } else cards.push(card("truck", "10,815 trips a day", "on Nicolls Road, Sunrise Highway and Veterans Highway", (r.hamlet ? esc(r.hamlet.hamlet) + " is not named in the traffic study's trip table, but every road into the site already fails at rush hour." : "Pick your hamlet to see which road carries the project's traffic past you."), "issues.html#traffic", "The traffic study ›", "warm", "tis"));
     // water
     var hn = r.hamlet ? r.hamlet.hamlet : "";
     var near = ["Holbrook", "Bohemia", "Ronkonkoma", "Lake Ronkonkoma", "Holtsville"].indexOf(hn) >= 0, ss = ["Sayville", "West Sayville", "Bayport", "Blue Point", "Oakdale", "Great River", "Islip", "East Islip", "Bay Shore", "Brightwaters", "Patchogue", "Bellport", "Islip Terrace"].indexOf(hn) >= 0;
-    cards.push(card("droplet", "Sodium at 8× the limit", near ? "in 96 million gallons a year, into your own well fields" : ss ? "in 96 million gallons a year, flowing toward your shore" : "in 96 million gallons a year, into the aquifer you drink", (near ? "Your tap draws from the well fields that bracket the site. " : ss ? "Groundwater under the site flows south to your shore and surfaces at Sans Souci Lakes. " : "Every tap in Suffolk draws from the one aquifer under the site. ") + "Runoff from 84 acres of roof and truck court would go into the ground 19 feet above it, and no water study has been filed.", "water.html", "The water models ›", near ? "hot" : ss ? "warm" : "warm"));
+    cards.push(card("droplet", "Sodium at 8× the limit", near ? "in 96 million gallons a year, into your own well fields" : ss ? "in 96 million gallons a year, flowing toward your shore" : "in 96 million gallons a year, into the aquifer you drink", (near ? "Your tap draws from the well fields that bracket the site. " : ss ? "Groundwater under the site flows south to your shore and surfaces at Sans Souci Lakes. " : "Every tap in Suffolk draws from the one aquifer under the site. ") + "Runoff from 84 acres of roof and truck court would go into the ground 19 feet above it, and no water study has been filed.", "water.html", "The water models ›", near ? "hot" : ss ? "warm" : "warm", "ourmath"));
     // your say
     var reps = [];
     if (r.hamlet) { ["county", "assembly", "senate"].forEach(function (k) { var list = r.hamlet[k] || []; if (list[0]) reps.push([{ county: "County Legislator", assembly: "Assembly Member", senate: "State Senator" }[k], list[0].name]); }); }
     var hr = r.hearing;
-    cards.push(card("gavel", hr ? (SPS.fmtDate ? SPS.fmtDate(hr.date) : hr.date) : "Two hearings", hr ? "one vote decides it: the " + esc(hr.title.split(" — ")[0].toLowerCase()) : "decide it", (hr ? esc(hr.location) + ". " : "") + (reps.length ? "Yours: " + reps.map(function (p) { return p[0].replace("Suffolk ", "") + " <strong>" + esc(p[1]) + "</strong>"; }).join(", ") + ". " : "") + (r.hamlet && /islip/i.test(r.hamlet.town || "") ? "Your Town Board casts the vote." : "Islip's Town Board casts the vote."), "act.html#officials", "Their phones and emails ›", "hot"));
+    cards.push(card("gavel", hr ? (SPS.fmtDate ? SPS.fmtDate(hr.date) : hr.date) : "Two hearings", hr ? "one vote decides it: the " + esc(hr.title.split(" — ")[0].toLowerCase()) : "decide it", (hr ? esc(hr.location) + ". " : "") + (reps.length ? "Yours: " + reps.map(function (p) { return p[0].replace("Suffolk ", "") + " <strong>" + esc(p[1]) + "</strong>"; }).join(", ") + ". " : "") + (r.hamlet && /islip/i.test(r.hamlet.town || "") ? "Your Town Board casts the vote." : "Islip's Town Board casts the vote."), "act.html#officials", "Their phones and emails ›", "hot", "calendar"));
 
     // actions ranked by distance
     var ft = r.ft, tier = ft == null ? 2 : ft <= 2640 ? 0 : ft <= 5280 ? 1 : 2;
@@ -177,14 +194,15 @@
     ].sort(function (a, b) { return a.rank[tier] - b.rank[tier]; });
 
     var ems = (SPS.impacts || []).filter(function (x) { return x.id === "ems"; })[0];
-    if (ems) { cards.push('<div class="card hcard ' + ems.sev + '" data-topic="more" data-anchor="ems" role="button" tabindex="0"><div class="hhead"><span class="ring">' + ic(ems.icon) + '</span><span class="sev">' + SEV[ems.sev] + '</span></div><div class="big">' + esc(ems.big) + '</div><div class="sub">' + esc(ems.sub) + '</div><p class="small">' + esc(ems.line) + '</p><a class="why" href="#more" data-open="more" data-anchor="ems">Why ›</a></div>'); current.sev.more = "hot"; }
+    if (ems) { cards.push('<div class="card hcard ' + ems.sev + '" data-topic="more" data-anchor="ems" role="button" tabindex="0"><div class="hhead"><span class="ring">' + ic(ems.icon) + '</span><span class="sev">' + SEV[ems.sev] + '</span></div><div class="big">' + esc(ems.big) + '</div><div class="sub">' + esc(ems.sub) + '</div><p class="small">' + esc(ems.line) + '</p>' + impactProv(ems) + '<a class="why" href="#more" data-open="more" data-anchor="ems">Why ›</a></div>'); current.sev.more = "hot"; }
     var ORDER = ["home", "water", "roads", "sleep", "more", "say"];
     cards.sort(function (a, b) { var ta = (a.match(/data-topic="([a-z]+)"/) || [])[1], tb = (b.match(/data-topic="([a-z]+)"/) || [])[1]; return ORDER.indexOf(ta) - ORDER.indexOf(tb); });
     var moreCards = (SPS.impacts || []).filter(function (x) { return x.card && x.id !== "ems"; });
     if (!current.sev.more) { var hotMore = moreCards.some(function (x) { return x.sev === "hot"; }), warmMore = moreCards.some(function (x) { return x.sev === "warm"; }); current.sev.more = hotMore ? "hot" : warmMore ? "warm" : "neutral"; }
-    var moreHtml = moreCards.length ? '<h3 style="margin:28px 0 10px">' + ic("alert") + ' Also on the table</h3><div class="grid cols-4 house-cards compact">' + moreCards.map(function (x) { return '<div class="card hcard ' + x.sev + '" data-topic="more" data-anchor="' + esc(x.id) + '" role="button" tabindex="0"><div class="hhead"><span class="ring">' + ic(x.icon) + '</span>' + (SEV[x.sev] ? '<span class="sev">' + SEV[x.sev] + "</span>" : "") + '</div><div class="big">' + esc(x.big) + '</div><div class="sub">' + esc(x.sub) + '</div><p class="small">' + esc(x.line.split(". ")[0]) + '.</p><a class="why" href="#more" data-open="more" data-anchor="' + esc(x.id) + '">Why ›</a></div>'; }).join("") + "</div>" : "";
+    var moreHtml = moreCards.length ? '<h3 style="margin:28px 0 10px">' + ic("alert") + ' Also on the table</h3><div class="grid cols-4 house-cards compact">' + moreCards.map(function (x) { return '<div class="card hcard ' + x.sev + '" data-topic="more" data-anchor="' + esc(x.id) + '" role="button" tabindex="0"><div class="hhead"><span class="ring">' + ic(x.icon) + '</span>' + (SEV[x.sev] ? '<span class="sev">' + SEV[x.sev] + "</span>" : "") + '</div><div class="big">' + esc(x.big) + '</div><div class="sub">' + esc(x.sub) + '</div><p class="small">' + esc(x.line.split(". ")[0]) + '.</p>' + impactProv(x) + '<a class="why" href="#more" data-open="more" data-anchor="' + esc(x.id) + '">Why ›</a></div>'; }).join("") + "</div>" : "";
     var li = function (a, i) { return '<li><div><strong>' + esc(a.t) + "</strong><div class=\"small\">" + esc(a.d) + "</div></div>" + (a.href ? '<a class="btn' + (i ? " secondary" : "") + '" href="' + esc(a.href) + '"' + (a.ext ? ' target="_blank" rel="noopener"' : "") + ">" + esc(a.btn) + "</a>" : '<button class="btn' + (i ? " secondary" : "") + '" data-act="' + a.act + '">' + esc(a.btn) + "</button>") + "</li>"; };
-    host.innerHTML = '<p class="where">' + where + '</p>' + who + '<div class="grid cols-3 house-cards">' + cards.join("") + '</div>' + moreHtml +
+    host.innerHTML = '<p class="where">' + where + '</p>' + who +
+      '<div class="prov-note"><strong>Where these numbers come from.</strong> Each card says its source. <span class="prov filing">applicant\'s filing</span> means it is in a document Amazon\'s team filed with the Town, linked so you can read it. <span class="prov research">published study</span> means a published percentage applied to your distance, with every study linked. <span class="prov ourmath">our arithmetic</span> means this site did the sum from those inputs — volunteers, not engineers, and no expert has reviewed it. Check our math, and tell us if we got it wrong.</div>' + '<div class="grid cols-3 house-cards">' + cards.join("") + '</div>' + moreHtml +
       '<h3 style="margin:36px 0 6px">' + ic("megaphone") + ' What you should do' + (tier === 0 ? " — you are one of the closest homes" : tier === 1 ? " — you are within a mile" : "") + '</h3>' +
       '<p class="small muted" style="margin-bottom:14px">Ranked for your distance. These two matter most.</p><ol class="actions">' + actions.slice(0, 2).map(li).join("") + "</ol>" +
       '<details class="how" style="margin-top:10px"><summary>More ways to help</summary><ol class="actions" style="counter-reset:a 2;margin-top:10px">' + actions.slice(2).map(function (a, i) { return li(a, i + 2); }).join("") + "</ol></details>" +
