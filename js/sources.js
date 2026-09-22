@@ -95,6 +95,8 @@
     ((N.light || {}).facts || []).forEach(function (x) { push("Light", x.text, x.source, x.url, x.status, "research"); });
     (N.ambient || []).forEach(function (x) { push("Noise — background levels", x.label, x.source, x.url, x.status, "record"); });
     (SPS.impacts || []).forEach(function (im) { (im.facts || []).forEach(function (f) { push(im.title || im.short, f.text, f.source, f.url, f.status, ""); }); });
+    var RV = SPS.review || {};
+    Object.keys(RV.sources || {}).forEach(function (k) { var q = RV.sources[k]; push("How it is being reviewed", q.note, q.title, q.url, q.status, ""); });
     var R = SPS.roads || {};
     if (R.wear) push("Roads", "Pavement wear per loaded truck", R.wear.source, R.wear.url, R.wear.status, "record");
     if (SPS.losSource) push("Roads", "Intersection grades and delays", SPS.losSource, "docs/Traffic-Impact-Study-2026-06-30.pdf", "", "filing");

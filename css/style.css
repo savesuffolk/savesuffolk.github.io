@@ -1064,3 +1064,13 @@ ol.reflist .rn { color: var(--muted); font-size: .92rem; margin-top: 2px; }
 ol.reflist .rb { margin-top: 3px; }
 :is(.rrefs) .basis { display: inline-block; }
 .refmark + .refmark { margin-left: 3px; }
+/* then-and-now comparison */
+.rows.cmp .row { grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr); }
+.rows.cmp .row.head { font-size: .8rem; color: var(--muted); font-weight: 700; }
+.rows.cmp .what.then { color: var(--muted); }
+.rows.cmp .what.now { font-weight: 600; }
+@media (max-width: 760px) { .rows.cmp .row { grid-template-columns: 1fr; gap: 2px; }
+  .rows.cmp .row.head { display: none; }
+  .rows.cmp .what.then::before { content: "2014 zoning: "; font-weight: 700; color: var(--muted); }
+  .rows.cmp .what.now::before { content: "Proposed: "; font-weight: 700; color: var(--red); } }
+#review .rstory .wstep:first-child { padding-top: 10px; }

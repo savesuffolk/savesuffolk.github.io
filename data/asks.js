@@ -4,8 +4,14 @@
 window.SPS = window.SPS || {};
 SPS.asks = {
   hearing: { body: "Islip Town Board", where: "655 Main St, Islip", when: "Nov 19, 5 PM" },
-  order: ["sleep", "home", "roads", "water", "ems", "power", "schools", "drones", "heat"],
+  order: ["review", "sleep", "home", "roads", "water", "ems", "power", "schools", "drones", "heat"],
   topics: {
+    review: { title: "How it is being reviewed", icon: "file", headline: "Before any vote, in writing", items: [
+      { id: "review-1", who: "Town Board", text: "A Positive Declaration under SEQRA and a full Draft Environmental Impact Statement, as the Town required for the smaller Islip Pines project on this same land in 2013.", say: "You required a full environmental impact statement here in 2013. Require one now." },
+      { id: "review-2", who: "Planning Board", text: "The corrected assessment form the Town's own planner asked for on July 24 2026, published before any hearing rather than after.", say: "Publish the corrected environmental form your planner asked for, before the hearing." },
+      { id: "review-3", who: "Town Board", text: "A written explanation of how a project larger than the site's existing zoning permits can be reviewed with less scrutiny than the smaller project that zoning was written for.", say: "Explain in writing why a bigger project is getting a smaller review." },
+      { id: "review-4", who: "Town Board", text: "The operational noise, air-quality, greenhouse-gas and lighting studies the filing lists as \"being prepared\", completed and on the record before the Change of Zone is heard.", say: "The studies marked \"being prepared\" must be finished and public before you vote." }
+    ] },
     sleep: { title: "Your sleep", icon: "moon", headline: "Before any vote, in writing", items: [
       { id: "sleep-1", who: "Town Board", text: "The operational noise study, submitted and reviewed, before the Change of Zone is heard — not after.", say: "Require the noise study before the hearing, not after it." },
       { id: "sleep-2", who: "Town Board", text: "No trailer moves on the north side between 10 PM and 7 AM, and broadband back-up alarms on every yard vehicle, written as conditions.", say: "Write a 10 PM to 7 AM ban on north-side trailer moves into the approval." },
