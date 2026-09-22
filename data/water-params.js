@@ -191,6 +191,14 @@ SPS.waterParams = {
 
   disclaimer: "These are screening-level calculations built from published USGS, EPA, NYSDEC and Suffolk County data and the applicant's own Full EAF and site plan. They are not a hydrogeologic study and should not be cited as one. The applicant has submitted no hydrogeologic study, no Article 6/7 review, no drywell design, no deicing plan and no spill-prevention plan for a 138-acre truck terminal over the Nassau–Suffolk Sole Source Aquifer — that is the point. Every number here can be changed with the sliders; every default is sourced or labeled an assumption. When the applicant produces site-specific data, we will update the defaults.",
 
+  // The county's own designation for this ground, from the 2013 referral file for the Islip Pines rezoning on this same land.
+  designation: {
+    zone: "I", label: "Groundwater Management Zone I",
+    text: "Suffolk County's referral file for this property records it as Groundwater Management Zone I, the county's most protective groundwater designation, in the deep recharge area that feeds the aquifer everyone here drinks from.",
+    source: "Suffolk County Planning Commission, staff report IS-13-04, July 3 2013 meeting packet",
+    url: "https://suffolkcountyny.gov/portals/0/formsdocs/planning/SCPlanningCommission/2013/ScPCjuly2013.pdf",
+    status: "verified"
+  },
   regulatory: [
     { text: "NYSDEC Stormwater Management Design Manual, Ch. 4 Table 4.3: 'Fleet storage areas (bus, truck, etc.)' and 'Outdoor loading/unloading facilities' are stormwater hotspots; runoff from hotspots 'cannot be allowed to infiltrate untreated into groundwater.'", url: "https://extapps.dec.ny.gov/docs/water_pdf/swdm2015chptr04.pdf" },
     { text: "Suffolk County Sanitary Code Article 7 §760-703.P lists 'Roadway Deicing Salt' and 'Petroleum Distillates' as restricted toxic or hazardous materials; §760-705.B.2.c removes the stormwater exemption where such materials may enter the system; §760-706 imposes extra requirements in Deep Recharge Areas and within 1,500 ft upgradient / 500 ft downgradient of Upper Glacial supply wells.", url: "https://www.suffolkcountyny.gov/Departments/Health-Services/Environmental-Quality/Water-Resources" },

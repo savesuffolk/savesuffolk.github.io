@@ -54,9 +54,21 @@
     var demand = v.demandGpd * DAYS / 1e6;
     var bar = function (label, val, cls, max) { return '<div class="wbar ' + cls + '"><span class="l">' + label + '</span><span class="track"><span class="fill" style="width:' + Math.min(100, val / max * 100) + '%"></span></span><span class="v">' + fmt(val, 0) + ' M gal/yr</span></div>'; };
     return '' +
-      '<section class="wstep"><div class="wnum">1</div><div><h3>The ground is the filter</h3><p>There is no reservoir on Long Island. Rain falls on the woods, sinks through 19 feet of sand, and comes out clean in the aquifer every tap in Suffolk draws from. On this site that is about <strong>' + fmt(b.pre.total, 0) + ' million gallons a year</strong> of clean water, made for free.</p>' + bar("Clean water the woods make today", b.pre.total, "clean", 100) + '</div></section>' +
+      '<section class="wstep"><div class="wnum">1</div><div><h3>The ground is the filter</h3><p>There is no reservoir on Long Island. Rain falls on the woods, sinks through 19 feet of sand, and comes out clean in the aquifer every tap in Suffolk draws from. On this site that is about <strong>' + fmt(b.pre.total, 0) + ' million gallons a year</strong> of clean water, made for free.</p>' + designationHtml() + bar("Clean water the woods make today", b.pre.total, "clean", 100) + '</div></section>' +
       '<section class="wstep"><div class="wnum">2</div><div><h3>The warehouse turns the filter off</h3><p>Pave 84 acres and the rain no longer filters through soil. It runs off roof and truck court, picks up road salt, oil, tire metals and diesel drips, and is pumped straight into the ground through drywells: <strong>' + fmt(b.post.drywell, 0) + ' million gallons a year</strong>, untreated. On top of that the building drinks <strong>' + fmt(demand, 0) + ' million gallons a year</strong> from the same aquifer.</p>' + bar("Clean water the woods make", 0, "clean", 100) + bar("Untreated runoff injected", b.post.drywell, "dirty", 100) + bar("Pumped out for the warehouse", demand, "drawn", 100) + '<p class="small">Net: about <strong>' + fmt(b.pre.total + demand, 0) + ' million gallons a year</strong> of clean water gone, replaced by ' + fmt(b.post.drywell, 0) + ' million of salty water.</p>' +
       '<div class="wcontam"><div class="wc"><div class="v">' + fmt(na.ratio, 0) + '×</div><div class="l">the drinking-water standard for sodium</div><div class="s">' + fmt(na.concMgL, 0) + ' mg/L in the runoff vs 20 allowed</div></div><div class="wc"><div class="v">At the limit</div><div class="l">chloride and lead</div><div class="s">' + fmt(cl.concMgL, 0) + ' mg/L chloride vs 250; lead ' + pb.concMgL.toFixed(3) + ' vs 0.025</div></div><div class="wc"><div class="v">' + fmt(l.salt.clLb / 2000, 0) + ' tons</div><div class="l">of chloride a year from deicing</div><div class="s">44 acres of pavement at 2 tons of salt an acre</div></div></div></div></section>';
+  }
+  function badge2(st) {
+    if (SPS.statusBadge) return SPS.statusBadge(st);
+    var map = { verified: "verified", unverified: "unverified", estimate: "assumption", paraphrase: "paraphrase" };
+    return '<span class="basis ' + (map[st] || "assumption") + '">' + String(st) + "</span>";
+  }
+  function designationHtml() {
+    var d = (SPS.waterParams || {}).designation; if (!d) return "";
+    var esc2 = function (x) { return SPS.esc ? SPS.esc(x) : String(x); };
+    return '<div class="wzone"><span class="z">Zone ' + esc2(d.zone) + '</span><div><strong>' + esc2(d.label) + '.</strong> ' + esc2(d.text) +
+      ' <a class="small" href="' + esc2(d.url) + '" target="_blank" rel="noopener">' + esc2(d.source) + "</a>" +
+      " " + badge2(d.status) + "</div></div>";
   }
   function spreadHtml(v, s, fr) {
     var rows = [5, 10, 30].map(function (y) { var sp = spreadAt(y, v, s, fr); return "<tr><td><button type=\"button\" class=\"yr\" data-yr=\"" + y + "\">Year " + y + "</button></td><td>" + fmt(sp.len / 5280, 1) + " mi south</td><td>" + fmt(sp.acres, 0) + " acres</td><td>" + fmt(sp.gal / 1e9, 1) + " billion gal</td></tr>"; }).join("");

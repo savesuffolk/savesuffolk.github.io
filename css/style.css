@@ -1074,3 +1074,9 @@ ol.reflist .rb { margin-top: 3px; }
   .rows.cmp .what.then::before { content: "2014 zoning: "; font-weight: 700; color: var(--muted); }
   .rows.cmp .what.now::before { content: "Proposed: "; font-weight: 700; color: var(--red); } }
 #review .rstory .wstep:first-child { padding-top: 10px; }
+/* groundwater management zone callout */
+.wzone { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; background: var(--blue-light); border-radius: 12px; padding: 12px 14px; margin: 10px 0 14px; font-size: .98rem; }
+.wzone .z { font-family: var(--display); font-weight: 800; font-size: 1.1rem; color: var(--blue); background: #fff; border-radius: 10px; padding: 8px 12px; white-space: nowrap; }
+.wzone a { word-break: break-word; }
+:is(.wzone) .basis { display: inline-block; }
+@media (max-width: 640px) { .wzone { grid-template-columns: 1fr; } }
