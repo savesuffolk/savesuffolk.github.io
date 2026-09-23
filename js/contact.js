@@ -117,6 +117,18 @@
         <details class="how"><summary>Data behind this draft</summary><p>${esc(t.data || '')}</p><p>${esc(t.hook || '')}</p></details>`);
       $('#m-copy').addEventListener('click', () => SPS.copy($('#m-body').value));
     });
+    const fo = $('#foil-open');
+    if (fo) fo.addEventListener('click', () => {
+      const t = T().emails.foil; if (!t) return;
+      SPS.openModal(`<h3>${ic('file')} Records request to the Town of Islip</h3><p class="small muted">${esc(t.note || '')}</p>
+        <p class="small"><strong>Subject:</strong> ${esc(t.subject)}</p>
+        <textarea id="m-body" style="min-height:320px">${esc(fill(t.body))}</textarea>
+        <div class="acts"><a class="btn" id="m-send" href="#">${ic('mail')} Open in my email app</a><button class="btn secondary" id="m-copy">${ic('copy')} Copy</button></div>
+        <p class="small muted" style="margin-top:10px">Send it to the Town Clerk / Records Access Officer. If you get no acknowledgement in five business days, say so in writing and cite Public Officers Law Article 6.</p>`);
+      if (SPS.renderIcons) SPS.renderIcons($('#modal-body'));
+      $('#m-copy').addEventListener('click', () => SPS.copy($('#m-body').value));
+      $('#m-send').addEventListener('click', ev => { ev.preventDefault(); window.location.href = mailto([], t.subject, $('#m-body').value); });
+    });
     const nd = $('#newsday-open'); if (nd) nd.addEventListener('click', () => {
       const n = T().newsday; if (!n) return;
       SPS.openModal(`<h3>Letter to Newsday</h3><p class="small muted">To: ${esc(n.to)} · Subject: ${esc(n.subject)}</p><textarea id="m-body">${esc(fill(n.body))}</textarea>

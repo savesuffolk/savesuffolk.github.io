@@ -34,6 +34,22 @@ SPS.templates = {
 "Sincerely,\n{{name}}\n{{street}}, {{town}}, NY"
     },
 
+    foil: {
+      subject: "FOIL request — Islip Pines (IMUPDD) environmental impact statement, and related records for CZ 2026-010",
+      body:
+"Records Access Officer\nTown of Islip\n655 Main Street\nIslip, NY 11751\n\n" +
+"Dear Records Access Officer,\n\n" +
+"Under the New York Freedom of Information Law, Public Officers Law Article 6, I request copies of the following records. I am {{name}} of {{street}}, {{town}}, New York.\n\n" +
+"1. The Draft Environmental Impact Statement and the Final Environmental Impact Statement prepared for the Islip Pines project on the property at the northeast corner of Sunrise Highway (NY-27) and Veterans Memorial Highway (NY-454) in Holbrook, together with any supplements, appendices and technical annexes. Suffolk County Planning Commission file IS-13-04 records the review for that application as a DEIS.\n\n" +
+"2. Any groundwater, hydrogeologic or recharge analysis contained in or appended to those statements, including borings, depth-to-water measurements and any assessment of the effect of clearing and paving on recharge at this parcel.\n\n" +
+"3. The SEQRA determination of significance (Positive Declaration), the adopted scope, and the Findings Statement adopted for the Islip Pines action, and the covenants and restrictions recorded in June 2014 for the Islip Mixed-Use Planned Development District.\n\n" +
+"4. For the pending application CZ 2026-010 (Project Sunrise): the amended Full Environmental Assessment Form requested by the Planning Department on July 24, 2026, all correspondence between the Town and the applicant or its representatives since that date, and any determination of significance made or contemplated.\n\n" +
+"If any part of this request is denied, please cite the specific exemption relied upon and advise me of my right to appeal. If the volume is substantial, I am willing to discuss narrowing the request or to inspect the records in person. Please acknowledge receipt within five business days as the statute provides.\n\n" +
+"Records may be sent electronically to the address below, which is my preference.\n\n" +
+"Thank you,\n{{name}}\n{{street}}, {{town}}, NY",
+      note: "Send to the Town of Islip Records Access Officer. Ask for electronic copies — it is faster and usually free. Keep the acknowledgement; the five-day rule is what you point to if nothing arrives."
+    },
+
     ida: {
       subject: SPS_SUBJECT,
       body:

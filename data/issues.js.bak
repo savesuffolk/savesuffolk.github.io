@@ -5,7 +5,7 @@ window.SPS = window.SPS || {};
 SPS.issues = [
   {
     id: "traffic", short: "Traffic", photo: "amazon-truck", photoCaption: "A 53-foot Amazon trailer on the highway — the filing counts 555 to 809 of these a day", title: "Traffic & Safety", color: '#c25a3f', icon: "🚛",
-    fact: "Amazon's proposal estimates 555 truck trips a day, and up to 809 on a peak day. In total, between trucks and fleet vans, they estimate 10,815 trips a day emanating from the warehouse.",
+    fact: "555 truck trips on an average weekday, 809 on a seasonal peak day; 10,815 total vehicle trips a day; 998 new trips in the PM peak hour. 544 collisions in three years at the study intersections, and every intersection in the crash-rate table exceeds the NYSDOT average.",
     why: "Veterans Highway at Broadway, at Lakeland Avenue and Nicolls Road at Colin Drive already operate at Level of Service E. Certain movements stay at LOS F after the proposed mitigation, which is limited to one-second signal-timing shifts. Trip numbers were supplied by the operator, not derived from published rates, and rest on comparison to the never-built Islip Pines project.",
     question: "How does the Town evaluate a project when all 11 crash-rate intersections already exceed the NYSDOT average, and will the Town independently verify the operator-supplied truck schedules?",
     sources: ["Stonefield Traffic Impact Study, June 30, 2026 — Tables 1, 3, 4, A5, A6; crash-rate summary", "Full EAF Part 1 (truck trips)"]
