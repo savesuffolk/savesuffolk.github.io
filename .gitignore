@@ -2,3 +2,6 @@
 dev-edit.js
 dev-mobile-check.html
 dev-mobile-shot.html
+
+# in-browser editor backups
+*.bak
